@@ -5,15 +5,27 @@ import { Session, User } from "@supabase/supabase-js";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 
+type ProfileType = {
+  id: string;
+  username: string | null;
+  full_name: string | null;
+  avatar_url: string | null;
+  email: string | null;
+  website: string | null;
+  created_at: string | null;
+  updated_at: string | null;
+  is_institution: boolean | null;
+};
+
 type AuthContextType = {
   session: Session | null;
   user: User | null;
-  profile: any | null;
+  profile: ProfileType | null;
   loading: boolean;
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, data: any) => Promise<void>;
   signOut: () => Promise<void>;
-  updateProfile: (data: any) => Promise<void>;
+  updateProfile: (data: Partial<ProfileType>) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -21,7 +33,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<any | null>(null);
+  const [profile, setProfile] = useState<ProfileType | null>(null);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -62,15 +74,15 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const fetchProfile = async (userId: string) => {
     try {
       const { data, error } = await supabase
-        .from("profiles")
-        .select("*")
-        .eq("id", userId)
+        .from('profiles')
+        .select('*')
+        .eq('id', userId)
         .single();
 
       if (error) {
         console.error("Erro ao buscar perfil:", error);
       } else {
-        setProfile(data);
+        setProfile(data as ProfileType);
       }
     } catch (error) {
       console.error("Erro ao buscar perfil:", error);
@@ -142,7 +154,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
-  const updateProfile = async (data: any) => {
+  const updateProfile = async (data: Partial<ProfileType>) => {
     try {
       setLoading(true);
       
@@ -152,14 +164,14 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       }
 
       const { error } = await supabase
-        .from("profiles")
+        .from('profiles')
         .update(data)
-        .eq("id", user.id);
+        .eq('id', user.id);
 
       if (error) {
         toast.error("Erro ao atualizar perfil: " + error.message);
       } else {
-        setProfile({ ...profile, ...data });
+        setProfile(profile ? { ...profile, ...data } : null);
         toast.success("Perfil atualizado com sucesso!");
       }
     } catch (error: any) {
