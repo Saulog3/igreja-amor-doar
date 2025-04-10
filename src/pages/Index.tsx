@@ -6,10 +6,39 @@ import Hero from "@/components/Hero";
 import InfoSection from "@/components/InfoSection";
 import FeatureSection from "@/components/FeatureSection";
 import AccountTypeCard from "@/components/AccountTypeCard";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeft, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel";
 
 const Index = () => {
+  // Dados fictícios para o carrossel
+  const carouselItems = [
+    {
+      id: 1,
+      title: "Ajude quem precisa",
+      description: "Suas doações fazem a diferença na vida de muitas pessoas.",
+      image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=1000",
+    },
+    {
+      id: 2,
+      title: "Comunidades fortalecidas",
+      description: "Apoie projetos sociais e fortaleça comunidades inteiras.",
+      image: "https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=1000",
+    },
+    {
+      id: 3,
+      title: "Transparência total",
+      description: "Acompanhe o impacto de cada centavo doado em tempo real.",
+      image: "https://images.unsplash.com/photo-1469571486292-b53926c9118f?auto=format&fit=crop&q=80&w=1000",
+    },
+  ];
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -21,6 +50,55 @@ const Index = () => {
           primaryButton={{ text: "Quero Doar", link: "/donate" }}
           secondaryButton={{ text: "Criar Doação", link: "/create-donation" }}
         />
+
+        {/* Carrossel de imagens */}
+        <section className="py-16 px-6 bg-gray-50">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-3xl font-bold mb-6 text-center">Causas em Destaque</h2>
+            <p className="text-gray-600 mb-12 text-center max-w-3xl mx-auto">
+              Conheça algumas das causas que estão transformando vidas com a ajuda da nossa plataforma.
+            </p>
+            
+            <Carousel
+              opts={{
+                align: "start",
+                loop: true,
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {carouselItems.map((item) => (
+                  <CarouselItem key={item.id} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <div className="overflow-hidden rounded-lg bg-white shadow-md">
+                        <div className="h-48 overflow-hidden">
+                          <img 
+                            src={item.image} 
+                            alt={item.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        <div className="p-6">
+                          <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                          <p className="text-gray-600 mb-4">{item.description}</p>
+                          <Button 
+                            className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
+                          >
+                            Saiba mais
+                          </Button>
+                        </div>
+                      </div>
+                    </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center mt-8 gap-2">
+                <CarouselPrevious className="relative inset-auto mx-2" />
+                <CarouselNext className="relative inset-auto mx-2" />
+              </div>
+            </Carousel>
+          </div>
+        </section>
         
         <section className="py-16 px-6 bg-white">
           <div className="container mx-auto max-w-6xl">
@@ -96,7 +174,7 @@ const Index = () => {
                   "Histórico de contribuições acessível para monitoramento."
                 ]}
                 buttonText="Criar conta doadora"
-                linkTo="/donator-signup"
+                linkTo="/auth"
               />
               
               <AccountTypeCard
@@ -111,7 +189,7 @@ const Index = () => {
                   "Histórico completo de transações."
                 ]}
                 buttonText="Criar conta institucional"
-                linkTo="/institution-signup"
+                linkTo="/auth"
               />
             </div>
           </div>
@@ -122,33 +200,39 @@ const Index = () => {
             <h2 className="text-3xl font-bold mb-2 text-center">Depoimentos</h2>
             <p className="text-gray-600 mb-12 text-center">O que nossos usuários dizem sobre a plataforma</p>
             
-            <div className="flex space-x-6 overflow-x-auto pb-6 snap-x">
-              {[1, 2, 3].map((item) => (
-                <div key={item} className="min-w-[300px] md:min-w-[400px] bg-gray-50 rounded-lg p-6 shadow-sm snap-center">
-                  <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-solidario-blue rounded-full flex items-center justify-center text-white font-bold">
-                      {item}
+            <Carousel
+              opts={{
+                align: "start",
+              }}
+              className="w-full"
+            >
+              <CarouselContent>
+                {[1, 2, 3].map((item) => (
+                  <CarouselItem key={item} className="md:basis-1/2 lg:basis-1/3">
+                    <div className="p-1">
+                      <div className="bg-gray-50 rounded-lg p-6 shadow-sm h-full">
+                        <div className="flex items-center mb-4">
+                          <div className="w-12 h-12 bg-solidario-blue rounded-full flex items-center justify-center text-white font-bold">
+                            {item}
+                          </div>
+                          <div className="ml-4">
+                            <h4 className="font-bold">Nome da Pessoa</h4>
+                            <p className="text-sm text-gray-600">Doador / Instituição</p>
+                          </div>
+                        </div>
+                        <p className="text-gray-700">
+                          "A plataforma Solidario+ mudou a forma como fazemos doações. É fácil, seguro e transparente. Consigo acompanhar todas as minhas contribuições e ver o impacto que estou causando."
+                        </p>
+                      </div>
                     </div>
-                    <div className="ml-4">
-                      <h4 className="font-bold">Nome da Pessoa</h4>
-                      <p className="text-sm text-gray-600">Doador / Instituição</p>
-                    </div>
-                  </div>
-                  <p className="text-gray-700">
-                    "A plataforma Solidario+ mudou a forma como fazemos doações. É fácil, seguro e transparente. Consigo acompanhar todas as minhas contribuições e ver o impacto que estou causando."
-                  </p>
-                </div>
-              ))}
-            </div>
-            
-            <div className="flex justify-center mt-6 space-x-2">
-              <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-100">
-                <ArrowLeft className="h-5 w-5" />
-              </button>
-              <button className="p-2 rounded-full border border-gray-300 hover:bg-gray-100">
-                <ArrowRight className="h-5 w-5" />
-              </button>
-            </div>
+                  </CarouselItem>
+                ))}
+              </CarouselContent>
+              <div className="flex justify-center mt-8 gap-2">
+                <CarouselPrevious className="relative inset-auto mx-2" />
+                <CarouselNext className="relative inset-auto mx-2" />
+              </div>
+            </Carousel>
           </div>
         </section>
       </main>

@@ -1,0 +1,192 @@
+
+import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { Session, User } from "@supabase/supabase-js";
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
+
+type AuthContextType = {
+  session: Session | null;
+  user: User | null;
+  profile: any | null;
+  loading: boolean;
+  signIn: (email: string, password: string) => Promise<void>;
+  signUp: (email: string, password: string, data: any) => Promise<void>;
+  signOut: () => Promise<void>;
+  updateProfile: (data: any) => Promise<void>;
+};
+
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
+  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<User | null>(null);
+  const [profile, setProfile] = useState<any | null>(null);
+  const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Primeiro configura o listener para mudanças no estado de autenticação
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(
+      (event, currentSession) => {
+        setSession(currentSession);
+        setUser(currentSession?.user ?? null);
+
+        // Se houve mudança de estado, carrega o perfil
+        if (currentSession?.user && event !== 'INITIAL_SESSION') {
+          // Usa setTimeout para evitar deadlock
+          setTimeout(() => {
+            fetchProfile(currentSession.user.id);
+          }, 0);
+        }
+      }
+    );
+
+    // Depois verifica se já existe uma sessão
+    supabase.auth.getSession().then(({ data: { session: currentSession } }) => {
+      setSession(currentSession);
+      setUser(currentSession?.user ?? null);
+      
+      if (currentSession?.user) {
+        fetchProfile(currentSession.user.id);
+      } else {
+        setLoading(false);
+      }
+    });
+
+    return () => {
+      subscription.unsubscribe();
+    };
+  }, []);
+
+  const fetchProfile = async (userId: string) => {
+    try {
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("id", userId)
+        .single();
+
+      if (error) {
+        console.error("Erro ao buscar perfil:", error);
+      } else {
+        setProfile(data);
+      }
+    } catch (error) {
+      console.error("Erro ao buscar perfil:", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signIn = async (email: string, password: string) => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
+
+      if (error) {
+        toast.error("Erro ao fazer login: " + error.message);
+      } else {
+        toast.success("Login realizado com sucesso!");
+        navigate("/minha-conta");
+      }
+    } catch (error: any) {
+      toast.error("Erro ao fazer login: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signUp = async (email: string, password: string, data: any) => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: data.full_name,
+            username: data.username || email.split("@")[0],
+            is_institution: data.is_institution || false,
+          },
+        },
+      });
+
+      if (error) {
+        toast.error("Erro ao criar conta: " + error.message);
+      } else {
+        toast.success("Conta criada com sucesso! Verifique seu email para confirmar o cadastro.");
+        navigate("/login");
+      }
+    } catch (error: any) {
+      toast.error("Erro ao criar conta: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const signOut = async () => {
+    try {
+      setLoading(true);
+      await supabase.auth.signOut();
+      setProfile(null);
+      toast.success("Logout realizado com sucesso!");
+      navigate("/");
+    } catch (error: any) {
+      toast.error("Erro ao fazer logout: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updateProfile = async (data: any) => {
+    try {
+      setLoading(true);
+      
+      if (!user) {
+        toast.error("Usuário não autenticado");
+        return;
+      }
+
+      const { error } = await supabase
+        .from("profiles")
+        .update(data)
+        .eq("id", user.id);
+
+      if (error) {
+        toast.error("Erro ao atualizar perfil: " + error.message);
+      } else {
+        setProfile({ ...profile, ...data });
+        toast.success("Perfil atualizado com sucesso!");
+      }
+    } catch (error: any) {
+      toast.error("Erro ao atualizar perfil: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const value = {
+    session,
+    user,
+    profile,
+    loading,
+    signIn,
+    signUp,
+    signOut,
+    updateProfile,
+  };
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+};
+
+export const useAuth = () => {
+  const context = useContext(AuthContext);
+  if (context === undefined) {
+    throw new Error("useAuth deve ser usado dentro de um AuthProvider");
+  }
+  return context;
+};

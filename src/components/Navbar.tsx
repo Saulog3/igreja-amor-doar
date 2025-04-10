@@ -2,9 +2,16 @@
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Search } from 'lucide-react';
+import { Search, Menu } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
+import { useState } from 'react';
 
 const Navbar = () => {
+  const { user, profile, signOut } = useAuth();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
   return (
     <nav className="border-b border-gray-200 bg-white py-4 px-6 sticky top-0 z-50">
       <div className="container mx-auto flex flex-wrap items-center justify-between">
@@ -34,9 +41,23 @@ const Navbar = () => {
               className="pl-10 rounded-full border-gray-300 w-40 md:w-64 focus:border-solidario-blue focus:ring-solidario-blue"
             />
           </div>
-          <Link to="/login" className="text-gray-700 hover:text-solidario-blue">
-            Minha conta
-          </Link>
+          
+          {user ? (
+            <Link to="/minha-conta" className="flex items-center gap-2 text-gray-700 hover:text-solidario-blue">
+              <Avatar className="h-8 w-8">
+                <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
+                <AvatarFallback>
+                  {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
+                </AvatarFallback>
+              </Avatar>
+              <span>Minha conta</span>
+            </Link>
+          ) : (
+            <Link to="/auth" className="text-gray-700 hover:text-solidario-blue">
+              Entrar / Cadastrar
+            </Link>
+          )}
+          
           <Link to="/donate">
             <Button className="bg-solidario-blue hover:bg-solidario-darkBlue text-white rounded-full">
               Quero Doar
@@ -45,11 +66,95 @@ const Navbar = () => {
         </div>
         
         <div className="md:hidden flex items-center">
-          <button className="mobile-menu-button">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-            </svg>
-          </button>
+          <Sheet open={isMenuOpen} onOpenChange={setIsMenuOpen}>
+            <SheetTrigger asChild>
+              <Button variant="ghost" className="p-2">
+                <Menu className="h-6 w-6" />
+              </Button>
+            </SheetTrigger>
+            <SheetContent side="right">
+              <div className="flex flex-col gap-6 py-6">
+                <Link 
+                  to="/" 
+                  className="text-xl font-bold text-solidario-blue"
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Solidario+
+                </Link>
+                
+                {user ? (
+                  <div className="flex flex-col gap-4">
+                    <Link 
+                      to="/minha-conta" 
+                      className="flex items-center gap-2" 
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      <Avatar className="h-8 w-8">
+                        <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
+                        <AvatarFallback>
+                          {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div>
+                        <p className="font-medium">{profile?.full_name || user.email}</p>
+                        <p className="text-sm text-gray-500">Ver perfil</p>
+                      </div>
+                    </Link>
+                    <Button 
+                      variant="outline" 
+                      onClick={() => {
+                        signOut();
+                        setIsMenuOpen(false);
+                      }}
+                    >
+                      Sair
+                    </Button>
+                  </div>
+                ) : (
+                  <Link 
+                    to="/auth" 
+                    className="flex items-center gap-2"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    <Button className="w-full">Entrar / Cadastrar</Button>
+                  </Link>
+                )}
+                
+                <div className="space-y-4 mt-4">
+                  <Link 
+                    to="/how-it-works" 
+                    className="block text-lg" 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Como funciona
+                  </Link>
+                  <Link 
+                    to="/contact" 
+                    className="block text-lg" 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Contato
+                  </Link>
+                  <Link 
+                    to="/discover" 
+                    className="block text-lg" 
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    Descubra
+                  </Link>
+                </div>
+                
+                <Link 
+                  to="/donate" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  <Button className="w-full bg-solidario-blue hover:bg-solidario-darkBlue mt-4">
+                    Quero Doar
+                  </Button>
+                </Link>
+              </div>
+            </SheetContent>
+          </Sheet>
         </div>
       </div>
     </nav>
