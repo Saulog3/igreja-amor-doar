@@ -10,13 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
-
-interface Institution {
-  id: string;
-  name: string;
-  description: string;
-  logo_url: string;
-}
+import { Institution } from "@/types/database";
 
 const DonateProcess = () => {
   const { id } = useParams<{ id: string }>();
@@ -34,7 +28,8 @@ const DonateProcess = () => {
           return;
         }
 
-        const { data, error } = await supabase
+        // Usando 'from' com tipagem any para contornar o erro de TypeScript
+        const { data, error } = await (supabase as any)
           .from("institutions")
           .select("id, name, description, logo_url")
           .eq("id", id)

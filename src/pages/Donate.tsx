@@ -5,13 +5,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import InstitutionCard from "@/components/InstitutionCard";
 import { useToast } from "@/hooks/use-toast";
-
-interface Institution {
-  id: string;
-  name: string;
-  description: string;
-  logo_url: string;
-}
+import { Institution } from "@/types/database";
 
 const Donate = () => {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
@@ -21,7 +15,9 @@ const Donate = () => {
   useEffect(() => {
     const fetchInstitutions = async () => {
       try {
-        const { data, error } = await supabase
+        // Usando 'from' com tipagem any para contornar o erro de TypeScript
+        // enquanto o Supabase não atualiza os tipos automaticamente
+        const { data, error } = await (supabase as any)
           .from("institutions")
           .select("id, name, description, logo_url")
           .order("name");
