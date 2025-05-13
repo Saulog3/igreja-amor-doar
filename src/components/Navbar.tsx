@@ -37,8 +37,8 @@ const Navbar = () => {
           <Link to="/contact" className="text-gray-700 hover:text-solidario-blue">
             Contato
           </Link>
-          <Link to="/discover" className="text-gray-700 hover:text-solidario-blue">
-            Descubra
+          <Link to="/donate" className="text-gray-700 hover:text-solidario-blue">
+            Doar
           </Link>
           <div className="relative flex items-center">
             <Search className="absolute left-3 h-5 w-5 text-gray-400" />
@@ -49,15 +49,21 @@ const Navbar = () => {
           </div>
           
           {user ? (
-            <Link to="/minha-conta" className="flex items-center gap-2 text-gray-700 hover:text-solidario-blue">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
-                <AvatarFallback>
-                  {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
-                </AvatarFallback>
-              </Avatar>
-              <span>Minha conta</span>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link to="/minha-conta" className="flex items-center gap-2 text-gray-700 hover:text-solidario-blue">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
+                  <AvatarFallback>
+                    {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <span>Minha conta</span>
+              </Link>
+              
+              <Link to="/admin" className="text-gray-700 hover:text-solidario-blue">
+                Admin
+              </Link>
+            </div>
           ) : (
             <Link to="/auth" className="text-gray-700 hover:text-solidario-blue">
               Entrar / Cadastrar
@@ -106,6 +112,15 @@ const Navbar = () => {
                         <p className="text-sm text-gray-500">Ver perfil</p>
                       </div>
                     </Link>
+                    
+                    <Link 
+                      to="/admin" 
+                      className="flex items-center gap-2" 
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Admin
+                    </Link>
+                    
                     <Button 
                       variant="outline" 
                       onClick={() => {
@@ -142,11 +157,11 @@ const Navbar = () => {
                     Contato
                   </Link>
                   <Link 
-                    to="/discover" 
+                    to="/donate" 
                     className="block text-lg" 
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Descubra
+                    Doar
                   </Link>
                 </div>
                 

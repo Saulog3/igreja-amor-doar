@@ -15,6 +15,7 @@ import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
 import Donate from "./pages/Donate";
 import DonateProcess from "./pages/DonateProcess";
+import Admin from "./pages/Admin";
 
 const queryClient = new QueryClient();
 
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/minha-conta" element={<MyAccount />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/donate/:id" element={<DonateProcess />} />
+            <Route path="/admin" element={<Admin />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
