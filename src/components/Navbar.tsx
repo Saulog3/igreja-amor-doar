@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +10,13 @@ import { useState } from 'react';
 const Navbar = () => {
   const { user, profile, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const menuItems = [
+    { label: "Home", path: "/" },
+    { label: "Como Funciona", path: "/how-it-works" },
+    { label: "Doar", path: "/donate" },
+    { label: "Contato", path: "/contact" },
+  ];
 
   return (
     <nav className="border-b border-gray-200 bg-white py-4 px-6 sticky top-0 z-50">
@@ -31,8 +37,8 @@ const Navbar = () => {
           <Link to="/contact" className="text-gray-700 hover:text-solidario-blue">
             Contato
           </Link>
-          <Link to="/discover" className="text-gray-700 hover:text-solidario-blue">
-            Descubra
+          <Link to="/donate" className="text-gray-700 hover:text-solidario-blue">
+            Doar
           </Link>
           <div className="relative flex items-center">
             <Search className="absolute left-3 h-5 w-5 text-gray-400" />
@@ -43,15 +49,21 @@ const Navbar = () => {
           </div>
           
           {user ? (
-            <Link to="/minha-conta" className="flex items-center gap-2 text-gray-700 hover:text-solidario-blue">
-              <Avatar className="h-8 w-8">
-                <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
-                <AvatarFallback>
-                  {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
-                </AvatarFallback>
-              </Avatar>
-              <span>Minha conta</span>
-            </Link>
+            <div className="flex items-center gap-4">
+              <Link to="/minha-conta" className="flex items-center gap-2 text-gray-700 hover:text-solidario-blue">
+                <Avatar className="h-8 w-8">
+                  <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
+                  <AvatarFallback>
+                    {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
+                  </AvatarFallback>
+                </Avatar>
+                <span>Minha conta</span>
+              </Link>
+              
+              <Link to="/admin" className="text-gray-700 hover:text-solidario-blue">
+                Admin
+              </Link>
+            </div>
           ) : (
             <Link to="/auth" className="text-gray-700 hover:text-solidario-blue">
               Entrar / Cadastrar
@@ -100,6 +112,15 @@ const Navbar = () => {
                         <p className="text-sm text-gray-500">Ver perfil</p>
                       </div>
                     </Link>
+                    
+                    <Link 
+                      to="/admin" 
+                      className="flex items-center gap-2" 
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Admin
+                    </Link>
+                    
                     <Button 
                       variant="outline" 
                       onClick={() => {
@@ -136,11 +157,11 @@ const Navbar = () => {
                     Contato
                   </Link>
                   <Link 
-                    to="/discover" 
+                    to="/donate" 
                     className="block text-lg" 
                     onClick={() => setIsMenuOpen(false)}
                   >
-                    Descubra
+                    Doar
                   </Link>
                 </div>
                 

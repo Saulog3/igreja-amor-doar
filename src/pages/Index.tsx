@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -168,7 +167,7 @@ const Index = () => {
                 features={[
                   "Você pode doar diretamente para instituições de caridade.",
                   "Possibilidade de iniciar uma campanha para uma causa específica.",
-                  "Apoiar arrecadações já em andamento.",
+                  "Apoie arrecadações já em andamento.",
                   "Um gráfico interativo exibe métricas detalhadas.",
                   "Visualização de valores doados, datas e benefícios de cada transação.",
                   "Histórico de contribuições acessível para monitoramento."
