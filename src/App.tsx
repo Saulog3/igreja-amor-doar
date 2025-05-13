@@ -13,6 +13,8 @@ import InstitutionSignup from "./pages/InstitutionSignup";
 import Auth from "./pages/Auth";
 import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
+import Donate from "./pages/Donate";
+import DonateProcess from "./pages/DonateProcess";
 
 const queryClient = new QueryClient();
 
@@ -31,6 +33,8 @@ const App = () => (
             <Route path="/institution-signup" element={<InstitutionSignup />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/minha-conta" element={<MyAccount />} />
+            <Route path="/donate" element={<Donate />} />
+            <Route path="/donate/:id" element={<DonateProcess />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

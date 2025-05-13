@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -11,6 +10,13 @@ import { useState } from 'react';
 const Navbar = () => {
   const { user, profile, signOut } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const menuItems = [
+    { label: "Home", path: "/" },
+    { label: "Como Funciona", path: "/how-it-works" },
+    { label: "Doar", path: "/donate" },
+    { label: "Contato", path: "/contact" },
+  ];
 
   return (
     <nav className="border-b border-gray-200 bg-white py-4 px-6 sticky top-0 z-50">
