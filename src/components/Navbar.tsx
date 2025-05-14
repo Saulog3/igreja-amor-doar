@@ -1,3 +1,4 @@
+
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -8,7 +9,7 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { useState } from 'react';
 
 const Navbar = () => {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, isAdmin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const menuItems = [
@@ -60,9 +61,11 @@ const Navbar = () => {
                 <span>Minha conta</span>
               </Link>
               
-              <Link to="/admin" className="text-gray-700 hover:text-solidario-blue">
-                Admin
-              </Link>
+              {isAdmin() && (
+                <Link to="/admin" className="text-gray-700 hover:text-solidario-blue">
+                  Admin
+                </Link>
+              )}
             </div>
           ) : (
             <Link to="/auth" className="text-gray-700 hover:text-solidario-blue">
@@ -113,13 +116,15 @@ const Navbar = () => {
                       </div>
                     </Link>
                     
-                    <Link 
-                      to="/admin" 
-                      className="flex items-center gap-2" 
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Admin
-                    </Link>
+                    {isAdmin() && (
+                      <Link 
+                        to="/admin" 
+                        className="flex items-center gap-2" 
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Admin
+                      </Link>
+                    )}
                     
                     <Button 
                       variant="outline" 

@@ -26,6 +26,7 @@ type AuthContextType = {
   signUp: (email: string, password: string, data: any) => Promise<void>;
   signOut: () => Promise<void>;
   updateProfile: (data: Partial<ProfileType>) => Promise<void>;
+  isAdmin: () => boolean;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -143,10 +144,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const signOut = async () => {
     try {
       setLoading(true);
-      await supabase.auth.signOut();
-      setProfile(null);
-      toast.success("Logout realizado com sucesso!");
-      navigate("/");
+      const { error } = await supabase.auth.signOut();
+      
+      if (error) {
+        toast.error("Erro ao fazer logout: " + error.message);
+      } else {
+        // Limpar o estado explicitamente após o logout
+        setUser(null);
+        setSession(null);
+        setProfile(null);
+        toast.success("Logout realizado com sucesso!");
+        navigate("/");
+      }
     } catch (error: any) {
       toast.error("Erro ao fazer logout: " + error.message);
     } finally {
@@ -181,6 +190,10 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const isAdmin = () => {
+    return user?.email === "saulorg3@gmail.com";
+  };
+
   const value = {
     session,
     user,
@@ -190,6 +203,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signUp,
     signOut,
     updateProfile,
+    isAdmin,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

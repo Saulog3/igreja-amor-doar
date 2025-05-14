@@ -18,9 +18,9 @@ const Admin = () => {
   const [dialogOpen, setDialogOpen] = useState(false);
   const { toast } = useToast();
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
   
-  // Redirecionar se o usuário não estiver autenticado
+  // Redirecionar se o usuário não estiver autenticado ou não for admin
   useEffect(() => {
     if (!user) {
       toast({
@@ -29,8 +29,18 @@ const Admin = () => {
         variant: "destructive",
       });
       navigate("/auth");
+      return;
     }
-  }, [user, navigate, toast]);
+
+    if (!isAdmin()) {
+      toast({
+        title: "Acesso negado",
+        description: "Apenas administradores podem acessar esta página.",
+        variant: "destructive",
+      });
+      navigate("/");
+    }
+  }, [user, navigate, toast, isAdmin]);
 
   const fetchInstitutions = async () => {
     try {
