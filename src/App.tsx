@@ -39,8 +39,8 @@ const App = () => (
             <Route path="/donate" element={<Donate />} />
             <Route path="/donate/:id" element={<DonateProcess />} />
             <Route path="/admin" element={<Admin />} />
-            <Route path="/payment-success" element={<PaymentSuccess />} />
-            <Route path="/payment-error" element={<PaymentError />} />
+            <Route path="/payment-sucesso" element={<PaymentSuccess />} />
+            <Route path="/payment-errado" element={<PaymentError />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

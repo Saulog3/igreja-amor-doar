@@ -81,7 +81,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       window.location.href = data.response.init_point;
     } else {
       console.error("init_point não encontrado na resposta");
-      navigate('/payment-error');
     }
     
     toast({
@@ -94,7 +93,6 @@ const handleSubmit = async (e: React.FormEvent) => {
       description: error.message,
       variant: "destructive",
     });
-    navigate('/payment-error');
   }
 };
 
