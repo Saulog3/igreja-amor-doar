@@ -63,7 +63,7 @@ const handleSubmit = async (e: React.FormEvent) => {
   try {
     const response = await fetch("https://65d5psjqh3.execute-api.sa-east-1.amazonaws.com/prod/mercado_pago", {
       method: "POST",
-     headers: {
+      headers: {
         "content-type": "application/json",
       },
       body: JSON.stringify({
@@ -80,20 +80,21 @@ const handleSubmit = async (e: React.FormEvent) => {
     if (data.response && data.response.init_point) {
       window.location.href = data.response.init_point;
     } else {
-      console.error("init_point não encontrado na resposta");
+      console.error("init_point não encontrado na resposta");
+      navigate('/payment-error');
     }
-    // Aqui você pode redirecionar para a próxima etapa ou mostrar uma mensagem de sucesso
+    
     toast({
       title: "Doação iniciada!",
-      description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para a API.`,
+      description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para processamento.`,
     });
-    // Exemplo: navigate(`/pagamento/${data.payment_id}`);
   } catch (error: any) {
     toast({
       title: "Erro ao doar",
       description: error.message,
       variant: "destructive",
     });
+    navigate('/payment-error');
   }
 };
 
