@@ -77,6 +77,11 @@ const handleSubmit = async (e: React.FormEvent) => {
 
     const data = await response.json();
     console.log(data);
+    if (data.response && data.response.init_point) {
+      window.location.href = data.response.init_point;
+    } else {
+      console.error("init_point não encontrado na resposta");
+    }
     // Aqui você pode redirecionar para a próxima etapa ou mostrar uma mensagem de sucesso
     toast({
       title: "Doação iniciada!",
