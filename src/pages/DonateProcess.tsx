@@ -55,14 +55,44 @@ const DonateProcess = () => {
     fetchInstitution();
   }, [id, navigate, toast]);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Placeholder para futura integração com o Mercado Pago
-    toast({
-      title: "Integração pendente",
-      description: `Futuramente será integrado com o Mercado Pago para processar doação de R$ ${donationAmount.toFixed(2)} para ${institution?.name}`,
+  // ...existing code...
+
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+
+  try {
+    const response = await fetch("https://65d5psjqh3.execute-api.sa-east-1.amazonaws.com/prod/mercado_pago", {
+      method: "POST",
+     headers: {
+        "content-type": "application/json",
+      },
+      body: JSON.stringify({
+        unit_price: donationAmount,
+      }),
     });
-  };
+    console.log(response);
+    if (!response.ok) {
+      throw new Error("Erro ao processar doação");
+    }
+
+    const data = await response.json();
+    console.log(data);
+    // Aqui você pode redirecionar para a próxima etapa ou mostrar uma mensagem de sucesso
+    toast({
+      title: "Doação iniciada!",
+      description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para a API.`,
+    });
+    // Exemplo: navigate(`/pagamento/${data.payment_id}`);
+  } catch (error: any) {
+    toast({
+      title: "Erro ao doar",
+      description: error.message,
+      variant: "destructive",
+    });
+  }
+};
+
+// ...existing code...
 
   if (loading) {
     return (
