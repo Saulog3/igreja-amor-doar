@@ -24,7 +24,7 @@ const Navbar = () => {
       <div className="container mx-auto flex flex-wrap items-center justify-between">
         <Link to="/" className="flex items-center">
           <img 
-            src="./public/lovable-uploads/D.png"
+            src="/lovable-uploads/D.png"
             alt="Solidario+" 
             className="h-8"
           />
