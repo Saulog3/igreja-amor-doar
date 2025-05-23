@@ -34,7 +34,7 @@ const Index = () => {
       id: 3,
       title: "Transparência total",
       description: "Acompanhe o impacto de cada centavo doado em tempo real.",
-      image: "https://images.unsplash.com/photo-1469571486292-b53926c9118f?auto=format&fit=crop&q=80&w=1000",
+      image: "https://maristalab.com.br/wp-content/uploads/2021/04/mlab_doacao.png",
     },
   ];
 
@@ -106,7 +106,7 @@ const Index = () => {
             <div className="flex flex-col md:flex-row gap-10 items-center">
               <div className="flex-1">
                 <img 
-                  src="/public/lovable-uploads/1dc204c6-0274-4313-ad08-a9d9f2171a69.png" 
+                  src="/public/lovable-uploads/C.png" 
                   alt="Pessoas solidárias" 
                   className="rounded-lg w-full"
                 />
@@ -123,14 +123,14 @@ const Index = () => {
                 <div className="mb-8">
                   <h4 className="text-xl font-bold mb-2">Conta Doadora –</h4>
                   <p className="text-gray-600 mb-4">
-                    Além de fazer doações para instituições, você também pode criar uma vaquinha para causas específicas ou contribuir para campanhas já existentes. Acompanhe todas as suas doações com um gráfico interativo, que exibe métricas detalhadas, como valores doados, datas e benefícios de cada transação, garantindo total controle sobre seu histórico de contribuições.
+                  Além de fazer doações para instituições, você também pode criar uma vaquinha para causas específicas ou contribuir para campanhas já existentes. Acompanhe todas as suas doações, com datas e benefícios de cada transação, garantindo total controle sobre seu histórico de contribuições.
                   </p>
                 </div>
                 
                 <div className="mb-8">
                   <h4 className="text-xl font-bold mb-2">Conta Institucional –</h4>
                   <p className="text-gray-600 mb-4">
-                    Gerencie suas doações de forma eficiente com um painel de análise financeira, que mostra os valores de entrada em tempo real. Além disso, um gráfico detalhado permite visualizar a evolução dos recebimentos, facilitando a gestão dos recursos.
+                  Gerencie suas doações de forma eficiente, facilitando a gestão dos recursos.
                   </p>
                 </div>
                 
@@ -182,10 +182,9 @@ const Index = () => {
                 features={[
                   "Controle suas doações com um painel de análise financeira.",
                   "Acompanhamento em tempo real dos valores recebidos.",
-                  "Visualize a evolução dos recebimentos com gráfico detalhado.",
                   "Ferramentas que auxiliam no controle dos recursos.",
-                  "Gestão eficiente das doações recebidas.",
-                  "Histórico completo de transações."
+                  "Gestão eficiente das doações recebidas, datas e benefícios de cada transação.",
+                  "Histórico de contribuições acessível para monitoramento."
                 ]}
                 buttonText="Criar conta institucional"
                 linkTo="/auth"
