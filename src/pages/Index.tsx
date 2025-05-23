@@ -106,7 +106,7 @@ const Index = () => {
             <div className="flex flex-col md:flex-row gap-10 items-center">
               <div className="flex-1">
                 <img 
-                  src="/public/lovable-uploads/C.png" 
+                  src="/lovable-uploads/C.png" 
                   alt="Pessoas solidárias" 
                   className="rounded-lg w-full"
                 />
