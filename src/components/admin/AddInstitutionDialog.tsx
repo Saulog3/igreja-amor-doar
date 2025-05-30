@@ -54,7 +54,7 @@ const AddInstitutionDialog = ({
 }: AddInstitutionDialogProps) => {
   const { toast } = useToast();
   const [loading, setLoading] = useState(false);
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
 
   const form = useForm<FormData>({
     resolver: zodResolver(institutionSchema),
@@ -75,28 +75,46 @@ const AddInstitutionDialog = ({
     try {
       setLoading(true);
       
+      if (!user) {
+        toast({
+          title: "Erro de autenticação",
+          description: "Você precisa estar logado para adicionar uma instituição.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       // Remover campos vazios
       const cleanData = Object.fromEntries(
         Object.entries(data).filter(([_, value]) => value !== "")
       );
 
-      // Adicionar profile_id se o usuário estiver autenticado
-      if (user) {
-        Object.assign(cleanData, { profile_id: user.id });
-      }
+      // Para administradores, definir o profile_id como o próprio ID do usuário
+      // Para usuários normais, também usar o próprio ID
+      Object.assign(cleanData, { profile_id: user.id });
+
+      console.log("Dados a serem inseridos:", cleanData);
       
       const { error } = await (supabase as any)
         .from("institutions")
         .insert([cleanData]);
 
-      if (error) throw error;
+      if (error) {
+        console.error("Erro ao inserir instituição:", error);
+        throw error;
+      }
       
       form.reset();
       onSuccess();
+      toast({
+        title: "Sucesso!",
+        description: "Instituição adicionada com sucesso.",
+      });
     } catch (error: any) {
+      console.error("Erro completo:", error);
       toast({
         title: "Erro ao adicionar instituição",
-        description: error.message,
+        description: error.message || "Ocorreu um erro inesperado.",
         variant: "destructive",
       });
     } finally {
