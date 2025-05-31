@@ -45,7 +45,7 @@ const Index = () => {
       <main className="flex-grow">
         <Hero
           title="Conectamos pessoas generosas e instituições religiosas"
-          subtitle="A plataforma que facilita doações para igrejas e instituições religiosas de forma segura, transparente e eficiente."
+          subtitle="A plataforma que facilita doações para instituições religiosas de forma segura, transparente e eficiente."
           primaryButton={{ text: "Quero Doar", link: "/donate" }}
           secondaryButton={{ text: "Criar Doação", link: "/create-donation" }}
         />
@@ -106,7 +106,7 @@ const Index = () => {
             <div className="flex flex-col md:flex-row gap-10 items-center">
               <div className="flex-1">
                 <img 
-                  src="/lovable-uploads/C.png" 
+                  src="/lovable-uploads/novas.jpg" 
                   alt="Pessoas solidárias" 
                   className="rounded-lg w-full"
                 />
