@@ -9,6 +9,53 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      donations: {
+        Row: {
+          amount: number
+          created_at: string | null
+          donor_email: string | null
+          donor_name: string | null
+          id: string
+          institution_id: string
+          payment_id: string | null
+          payment_method: string | null
+          payment_status: Database["public"]["Enums"]["payment_status_enum"]
+          updated_at: string | null
+        }
+        Insert: {
+          amount: number
+          created_at?: string | null
+          donor_email?: string | null
+          donor_name?: string | null
+          id?: string
+          institution_id: string
+          payment_id?: string | null
+          payment_method?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status_enum"]
+          updated_at?: string | null
+        }
+        Update: {
+          amount?: number
+          created_at?: string | null
+          donor_email?: string | null
+          donor_name?: string | null
+          id?: string
+          institution_id?: string
+          payment_id?: string | null
+          payment_method?: string | null
+          payment_status?: Database["public"]["Enums"]["payment_status_enum"]
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "donations_institution_id_fkey"
+            columns: ["institution_id"]
+            isOneToOne: false
+            referencedRelation: "institutions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       institutions: {
         Row: {
           address: string | null
@@ -109,7 +156,12 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
-      [_ in never]: never
+      payment_status_enum:
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "cancelled"
+        | "refunded"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -224,6 +276,14 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      payment_status_enum: [
+        "pending",
+        "approved",
+        "rejected",
+        "cancelled",
+        "refunded",
+      ],
+    },
   },
 } as const

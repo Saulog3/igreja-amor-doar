@@ -17,7 +17,10 @@ const DonateProcess = () => {
   const navigate = useNavigate();
   const [institution, setInstitution] = useState<Institution | null>(null);
   const [donationAmount, setDonationAmount] = useState<number>(10);
+  const [donorName, setDonorName] = useState<string>("");
+  const [donorEmail, setDonorEmail] = useState<string>("");
   const [loading, setLoading] = useState(true);
+  const [submitting, setSubmitting] = useState(false);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -28,8 +31,7 @@ const DonateProcess = () => {
           return;
         }
 
-        // Usando 'from' com tipagem any para contornar o erro de TypeScript
-        const { data, error } = await (supabase as any)
+        const { data, error } = await supabase
           .from("institutions")
           .select("id, name, description, logo_url")
           .eq("id", id)
@@ -55,48 +57,81 @@ const DonateProcess = () => {
     fetchInstitution();
   }, [id, navigate, toast]);
 
-  // ...existing code...
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setSubmitting(true);
 
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
+    try {
+      // Primeiro, registrar a doação no banco de dados
+      const { data: donationData, error: donationError } = await supabase
+        .from("donations")
+        .insert({
+          institution_id: id!,
+          amount: donationAmount,
+          donor_name: donorName || null,
+          donor_email: donorEmail || null,
+          payment_method: 'mercado_pago',
+          payment_status: 'pending'
+        })
+        .select()
+        .single();
 
-  try {
-    const response = await fetch("https://65d5psjqh3.execute-api.sa-east-1.amazonaws.com/prod/mercado_pago", {
-      method: "POST",
-      headers: {
-        "content-type": "application/json",
-      },
-      body: JSON.stringify({
-        unit_price: donationAmount,
-      }),
-    });
-    console.log(response);
-    if (!response.ok) {
-      throw new Error("Erro ao processar doação");
+      if (donationError) {
+        throw donationError;
+      }
+
+      console.log('Doação registrada:', donationData);
+
+      // Agora processar o pagamento
+      const response = await fetch("https://65d5psjqh3.execute-api.sa-east-1.amazonaws.com/prod/mercado_pago", {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+        },
+        body: JSON.stringify({
+          unit_price: donationAmount,
+          external_reference: donationData.id, // Usar o ID da doação como referência
+        }),
+      });
+
+      console.log('Resposta do Mercado Pago:', response);
+
+      if (!response.ok) {
+        throw new Error("Erro ao processar doação");
+      }
+
+      const data = await response.json();
+      console.log('Dados do pagamento:', data);
+
+      if (data.response && data.response.init_point) {
+        // Atualizar o payment_id na doação
+        await supabase
+          .from("donations")
+          .update({ payment_id: data.response.id })
+          .eq("id", donationData.id);
+
+        // Redirecionar para o Mercado Pago
+        window.location.href = data.response.init_point;
+      } else {
+        console.error("init_point não encontrado na resposta");
+        throw new Error("Erro na configuração do pagamento");
+      }
+      
+      toast({
+        title: "Doação iniciada!",
+        description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para processamento.`,
+      });
+    } catch (error: any) {
+      console.error('Erro no processo de doação:', error);
+      toast({
+        title: "Erro ao doar",
+        description: error.message,
+        variant: "destructive",
+      });
+    } finally {
+      setSubmitting(false);
     }
-
-    const data = await response.json();
-    console.log(data);
-    if (data.response && data.response.init_point) {
-      window.location.href = data.response.init_point;
-    } else {
-      console.error("init_point não encontrado na resposta");
-    }
-    
-    toast({
-      title: "Doação iniciada!",
-      description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para processamento.`,
-    });
-  } catch (error: any) {
-    toast({
-      title: "Erro ao doar",
-      description: error.message,
-      variant: "destructive",
-    });
-  }
-};
-
-// ...existing code...
+  };
 
   if (loading) {
     return (
@@ -153,6 +188,31 @@ const handleSubmit = async (e: React.FormEvent) => {
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="donor-name">Nome (opcional)</Label>
+                        <Input
+                          id="donor-name"
+                          type="text"
+                          value={donorName}
+                          onChange={(e) => setDonorName(e.target.value)}
+                          placeholder="Seu nome"
+                          className="mt-1"
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="donor-email">E-mail (opcional)</Label>
+                        <Input
+                          id="donor-email"
+                          type="email"
+                          value={donorEmail}
+                          onChange={(e) => setDonorEmail(e.target.value)}
+                          placeholder="seu@email.com"
+                          className="mt-1"
+                        />
+                      </div>
+                    </div>
+
                     <div className="space-y-4">
                       <div>
                         <Label htmlFor="donation-amount">Valor da doação (R$)</Label>
@@ -164,6 +224,7 @@ const handleSubmit = async (e: React.FormEvent) => {
                           value={donationAmount}
                           onChange={(e) => setDonationAmount(Number(e.target.value))}
                           className="mt-1"
+                          required
                         />
                       </div>
 
@@ -189,12 +250,13 @@ const handleSubmit = async (e: React.FormEvent) => {
                     <Button 
                       type="submit" 
                       className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
+                      disabled={submitting}
                     >
-                      Continuar para pagamento
+                      {submitting ? "Processando..." : "Continuar para pagamento"}
                     </Button>
                     
                     <p className="text-sm text-gray-500 text-center mt-2">
-                      Em breve, a integração com o Mercado Pago estará disponível para processar sua doação com segurança.
+                      Você será redirecionado para o Mercado Pago para completar o pagamento com segurança.
                     </p>
                   </form>
                 </CardContent>

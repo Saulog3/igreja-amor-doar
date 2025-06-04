@@ -19,6 +19,28 @@ export interface Institution {
   website?: string;
 }
 
+// Tipo para doações
+export interface Donation {
+  id: string;
+  institution_id: string;
+  donor_email?: string;
+  donor_name?: string;
+  amount: number;
+  payment_method?: string;
+  payment_status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'refunded';
+  payment_id?: string;
+  created_at?: string;
+  updated_at?: string;
+}
+
+// Tipos para métricas do dashboard
+export interface DashboardMetrics {
+  totalAmount: number;
+  totalDonations: number;
+  uniqueDonors: number;
+  pendingAmount: number;
+}
+
 // Tipo para as operações Supabase com a tabela institutions
 export type InstitutionResponse = Awaited<ReturnType<typeof fetchInstitutions>>;
 

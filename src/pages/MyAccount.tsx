@@ -10,7 +10,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import { Loader2 } from "lucide-react";
+import DashboardCard from "@/components/dashboard/DashboardCard";
+import DonationsTable from "@/components/dashboard/DonationsTable";
+import DonationsChart from "@/components/dashboard/DonationsChart";
+import { useDonations } from "@/hooks/useDonations";
+import { supabase } from "@/integrations/supabase/client";
+import { Loader2, DollarSign, Users, TrendingUp, Clock } from "lucide-react";
 
 const MyAccount = () => {
   const { user, profile, loading, signOut, updateProfile } = useAuth();
@@ -21,6 +26,12 @@ const MyAccount = () => {
     website: "",
     avatar_url: "",
   });
+  const [institutionId, setInstitutionId] = useState<string | null>(null);
+
+  // Buscar dados de doações apenas se for uma instituição
+  const { donations, metrics, loading: donationsLoading } = useDonations(
+    profile?.is_institution ? institutionId : undefined
+  );
 
   useEffect(() => {
     if (!loading && !user) {
@@ -33,6 +44,22 @@ const MyAccount = () => {
         website: profile.website || "",
         avatar_url: profile.avatar_url || "",
       });
+
+      // Se for uma instituição, buscar o ID da instituição
+      if (profile.is_institution) {
+        const fetchInstitutionId = async () => {
+          const { data } = await supabase
+            .from("institutions")
+            .select("id")
+            .eq("profile_id", user?.id)
+            .single();
+          
+          if (data) {
+            setInstitutionId(data.id);
+          }
+        };
+        fetchInstitutionId();
+      }
     }
   }, [user, profile, loading, navigate]);
 
@@ -112,12 +139,63 @@ const MyAccount = () => {
             </div>
             
             <div className="w-full md:w-2/3">
-              <Tabs defaultValue="profile">
-                <TabsList className="grid w-full grid-cols-3 mb-8">
+              <Tabs defaultValue={profile?.is_institution ? "dashboard" : "profile"}>
+                <TabsList className={`grid w-full ${profile?.is_institution ? 'grid-cols-4' : 'grid-cols-3'} mb-8`}>
+                  {profile?.is_institution && (
+                    <TabsTrigger value="dashboard">Dashboard</TabsTrigger>
+                  )}
                   <TabsTrigger value="profile">Meu Perfil</TabsTrigger>
                   <TabsTrigger value="donations">Doações</TabsTrigger>
                   <TabsTrigger value="settings">Configurações</TabsTrigger>
                 </TabsList>
+                
+                {profile?.is_institution && (
+                  <TabsContent value="dashboard">
+                    <div className="space-y-6">
+                      {donationsLoading ? (
+                        <div className="flex justify-center py-12">
+                          <Loader2 className="h-8 w-8 animate-spin text-solidario-blue" />
+                        </div>
+                      ) : (
+                        <>
+                          {/* Métricas */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <DashboardCard
+                              title="Total Arrecadado"
+                              value={`R$ ${metrics.totalAmount.toFixed(2)}`}
+                              icon={DollarSign}
+                              description="Doações aprovadas"
+                            />
+                            <DashboardCard
+                              title="Total de Doações"
+                              value={metrics.totalDonations}
+                              icon={TrendingUp}
+                              description="Doações concluídas"
+                            />
+                            <DashboardCard
+                              title="Doadores Únicos"
+                              value={metrics.uniqueDonors}
+                              icon={Users}
+                              description="Pessoas diferentes"
+                            />
+                            <DashboardCard
+                              title="Pendentes"
+                              value={`R$ ${metrics.pendingAmount.toFixed(2)}`}
+                              icon={Clock}
+                              description="Aguardando aprovação"
+                            />
+                          </div>
+
+                          {/* Gráfico */}
+                          <DonationsChart donations={donations} />
+
+                          {/* Tabela de doações */}
+                          <DonationsTable donations={donations.slice(0, 10)} />
+                        </>
+                      )}
+                    </div>
+                  </TabsContent>
+                )}
                 
                 <TabsContent value="profile">
                   <Card>
@@ -184,19 +262,32 @@ const MyAccount = () => {
                     <CardHeader>
                       <CardTitle>Minhas Doações</CardTitle>
                       <CardDescription>
-                        Histórico de suas contribuições.
+                        {profile?.is_institution 
+                          ? "Doações recebidas pela sua instituição."
+                          : "Histórico de suas contribuições."
+                        }
                       </CardDescription>
                     </CardHeader>
                     <CardContent>
-                      <div className="text-center py-12">
-                        <p className="text-gray-500">Você ainda não fez nenhuma doação.</p>
-                        <Button
-                          className="mt-4 bg-solidario-blue hover:bg-solidario-darkBlue"
-                          onClick={() => navigate("/donate")}
-                        >
-                          Fazer uma doação
-                        </Button>
-                      </div>
+                      {profile?.is_institution ? (
+                        donationsLoading ? (
+                          <div className="flex justify-center py-12">
+                            <Loader2 className="h-8 w-8 animate-spin text-solidario-blue" />
+                          </div>
+                        ) : (
+                          <DonationsTable donations={donations} />
+                        )
+                      ) : (
+                        <div className="text-center py-12">
+                          <p className="text-gray-500">Você ainda não fez nenhuma doação.</p>
+                          <Button
+                            className="mt-4 bg-solidario-blue hover:bg-solidario-darkBlue"
+                            onClick={() => navigate("/donate")}
+                          >
+                            Fazer uma doação
+                          </Button>
+                        </div>
+                      )}
                     </CardContent>
                   </Card>
                 </TabsContent>
