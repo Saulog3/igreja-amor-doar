@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Checkbox } from "@/components/ui/checkbox";
-import FormField from "@/components/FormField";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -19,11 +18,6 @@ const Auth = () => {
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   const [isInstitution, setIsInstitution] = useState(false);
-  
-  // Campos específicos para instituições
-  const [institutionName, setInstitutionName] = useState("");
-  const [cnpj, setCnpj] = useState("");
-  const [institutionDescription, setInstitutionDescription] = useState("");
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -36,21 +30,6 @@ const Auth = () => {
       full_name: fullName,
       username,
       is_institution: isInstitution,
-      institution_name: institutionName,
-      cnpj,
-      institution_description: institutionDescription,
-    });
-  };
-
-  const handleInstitutionSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await signUp(email, password, {
-      full_name: institutionName,
-      username: cnpj,
-      is_institution: true,
-      institution_name: institutionName,
-      cnpj,
-      institution_description: institutionDescription,
     });
   };
 
@@ -60,10 +39,9 @@ const Auth = () => {
       
       <main className="flex-grow flex items-center justify-center py-12 px-4">
         <Tabs defaultValue="login" className="w-full max-w-md">
-          <TabsList className="grid w-full grid-cols-3 mb-8">
+          <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="register">Cadastro</TabsTrigger>
-            <TabsTrigger value="institution">Instituição</TabsTrigger>
           </TabsList>
           
           <TabsContent value="login">
@@ -202,84 +180,6 @@ const Auth = () => {
                     disabled={loading}
                   >
                     {loading ? "Criando conta..." : "Criar conta"}
-                  </Button>
-                </CardFooter>
-              </form>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="institution">
-            <Card>
-              <CardHeader>
-                <CardTitle>Cadastro de Instituição</CardTitle>
-                <CardDescription>
-                  Registre sua instituição religiosa na plataforma.
-                </CardDescription>
-              </CardHeader>
-              <form onSubmit={handleInstitutionSignUp}>
-                <CardContent className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="institutionName">Nome da Instituição</Label>
-                    <Input
-                      id="institutionName"
-                      type="text"
-                      placeholder="Nome da sua instituição"
-                      value={institutionName}
-                      onChange={(e) => setInstitutionName(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="cnpj">CNPJ</Label>
-                    <Input
-                      id="cnpj"
-                      type="text"
-                      placeholder="00.000.000/0000-00"
-                      value={cnpj}
-                      onChange={(e) => setCnpj(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="institutionDescription">Descrição</Label>
-                    <Input
-                      id="institutionDescription"
-                      type="text"
-                      placeholder="Breve descrição da instituição"
-                      value={institutionDescription}
-                      onChange={(e) => setInstitutionDescription(e.target.value)}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email">Email da Instituição</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      placeholder="contato@instituicao.com"
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="password">Senha</Label>
-                    <Input
-                      id="password"
-                      type="password"
-                      placeholder="••••••••"
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      required
-                    />
-                  </div>
-                </CardContent>
-                <CardFooter>
-                  <Button
-                    type="submit"
-                    className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
-                    disabled={loading}
-                  >
-                    {loading ? "Criando conta..." : "Cadastrar Instituição"}
                   </Button>
                 </CardFooter>
               </form>

@@ -1,4 +1,3 @@
-
 import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Session, User } from "@supabase/supabase-js";
@@ -131,26 +130,6 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       if (error) {
         toast.error("Erro ao criar conta: " + error.message);
         return;
-      }
-
-      // Se for uma instituição, criar o registro na tabela institutions
-      if (data.is_institution && authData.user) {
-        try {
-          const { error: institutionError } = await supabase
-            .from('institutions')
-            .insert({
-              profile_id: authData.user.id,
-              name: data.institution_name || data.full_name,
-              description: data.institution_description || null,
-            });
-
-          if (institutionError) {
-            console.error("Erro ao criar instituição:", institutionError);
-            toast.error("Conta criada, mas erro ao registrar instituição");
-          }
-        } catch (institutionError) {
-          console.error("Erro ao criar instituição:", institutionError);
-        }
       }
 
       toast.success("Conta criada com sucesso! Verifique seu email para confirmar o cadastro.");
