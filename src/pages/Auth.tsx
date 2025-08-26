@@ -29,7 +29,7 @@ const Auth = () => {
     await signUp(email, password, {
       full_name: fullName,
       username,
-      is_institution: isInstitution,
+      is_institution: isInstitution === true,
     });
   };
 

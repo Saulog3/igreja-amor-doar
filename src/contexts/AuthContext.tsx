@@ -122,7 +122,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           data: {
             full_name: data.full_name,
             username: data.username || email.split("@")[0],
-            is_institution: data.is_institution || false,
+            is_institution: data.is_institution === true,
           },
         },
       });
@@ -132,7 +132,34 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
         return;
       }
 
-      toast.success("Conta criada com sucesso! Verifique seu email para confirmar o cadastro.");
+      // Se for uma instituição, criar automaticamente um registro na tabela institutions
+      if (data.is_institution === true && authData?.user) {
+        const userId = authData.user.id;
+        const institutionName = data.full_name || "Instituição";
+        
+        // Criar registro na tabela institutions
+        const { error: institutionError } = await supabase
+          .from("institutions")
+          .insert([
+            {
+              name: institutionName,
+              description: `Instituição religiosa ${institutionName}`,
+              profile_id: userId,
+              verified: false
+            }
+          ]);
+
+        if (institutionError) {
+          console.error("Erro ao criar instituição:", institutionError);
+          // Não impede o fluxo principal, apenas loga o erro
+        }
+      }
+
+      if (data.is_institution === true) {
+        toast.success("Instituição criada com sucesso! Sua instituição já está disponível para receber doações. Verifique seu email para confirmar o cadastro.");
+      } else {
+        toast.success("Conta criada com sucesso! Verifique seu email para confirmar o cadastro.");
+      }
       navigate("/auth");
     } catch (error: any) {
       toast.error("Erro ao criar conta: " + error.message);

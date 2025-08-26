@@ -14,6 +14,7 @@ import Auth from "./pages/Auth";
 import MyAccount from "./pages/MyAccount";
 import NotFound from "./pages/NotFound";
 import Donate from "./pages/Donate";
+import CreateDonation from "./pages/CreateDonation";
 import DonateProcess from "./pages/DonateProcess";
 import Admin from "./pages/Admin";
 import PaymentSuccess from "./pages/PaymentSuccess";
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/auth" element={<Auth />} />
             <Route path="/minha-conta" element={<MyAccount />} />
             <Route path="/donate" element={<Donate />} />
+            <Route path="/create-donation" element={<CreateDonation />} />
             <Route path="/donate/:id" element={<DonateProcess />} />
             <Route path="/admin" element={<Admin />} />
             <Route path="/payment-sucesso" element={<PaymentSuccess />} />

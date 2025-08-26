@@ -13,6 +13,10 @@ import Footer from "@/components/Footer";
 import DashboardCard from "@/components/dashboard/DashboardCard";
 import DonationsTable from "@/components/dashboard/DonationsTable";
 import DonationsChart from "@/components/dashboard/DonationsChart";
+import DonationsPieChart from "@/components/dashboard/DonationsPieChart";
+import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
+import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
+import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import { useDonations } from "@/hooks/useDonations";
 import { supabase } from "@/integrations/supabase/client";
 import { Loader2, DollarSign, Users, TrendingUp, Clock } from "lucide-react";
@@ -27,11 +31,52 @@ const MyAccount = () => {
     avatar_url: "",
   });
   const [institutionId, setInstitutionId] = useState<string | null>(null);
+  const [filters, setFilters] = useState<FilterValues>({
+    startDate: undefined,
+    endDate: undefined,
+    paymentStatus: undefined,
+    minAmount: undefined,
+    maxAmount: undefined,
+  });
 
   // Buscar dados de doações apenas se for uma instituição
   const { donations, metrics, loading: donationsLoading } = useDonations(
     profile?.is_institution ? institutionId : undefined
   );
+  
+  // Filtrar doações com base nos filtros aplicados
+  const filteredDonations = donations.filter(donation => {
+    // Filtro por status
+    if (filters.paymentStatus && donation.payment_status !== filters.paymentStatus) {
+      return false;
+    }
+    
+    // Filtro por valor mínimo
+    if (filters.minAmount && donation.amount < filters.minAmount) {
+      return false;
+    }
+    
+    // Filtro por valor máximo
+    if (filters.maxAmount && donation.amount > filters.maxAmount) {
+      return false;
+    }
+    
+    // Filtro por data inicial
+    if (filters.startDate && new Date(donation.created_at) < filters.startDate) {
+      return false;
+    }
+    
+    // Filtro por data final
+    if (filters.endDate) {
+      const endDateWithTime = new Date(filters.endDate);
+      endDateWithTime.setHours(23, 59, 59, 999);
+      if (new Date(donation.created_at) > endDateWithTime) {
+        return false;
+      }
+    }
+    
+    return true;
+  });
 
   useEffect(() => {
     if (!loading && !user) {
@@ -158,6 +203,9 @@ const MyAccount = () => {
                         </div>
                       ) : (
                         <>
+                          {/* Filtros */}
+                          <DashboardFilters onFilterChange={setFilters} />
+                          
                           {/* Métricas */}
                           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                             <DashboardCard
@@ -186,11 +234,16 @@ const MyAccount = () => {
                             />
                           </div>
 
-                          {/* Gráfico */}
-                          <DonationsChart donations={donations} />
+                          {/* Gráficos */}
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <DonationsChart donations={filteredDonations} />
+                            <DonationsPieChart donations={filteredDonations} />
+                          </div>
+                          
+                          <DonationsLineChart donations={filteredDonations} />
 
-                          {/* Tabela de doações */}
-                          <DonationsTable donations={donations.slice(0, 10)} />
+                          {/* Tabela de doações detalhada */}
+                          <DetailedDonationsTable donations={filteredDonations} />
                         </>
                       )}
                     </div>
@@ -275,7 +328,7 @@ const MyAccount = () => {
                             <Loader2 className="h-8 w-8 animate-spin text-solidario-blue" />
                           </div>
                         ) : (
-                          <DonationsTable donations={donations} />
+                          <DetailedDonationsTable donations={donations} />
                         )
                       ) : (
                         <div className="text-center py-12">
