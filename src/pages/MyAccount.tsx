@@ -13,7 +13,6 @@ import Footer from "@/components/Footer";
 
 import SummaryCard from "@/components/dashboard/SummaryCard";
 import DonationsTable from "@/components/dashboard/DonationsTable";
-import DonationsChart from "@/components/dashboard/DonationsChart";
 import DonationsPieChart from "@/components/dashboard/DonationsPieChart";
 import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
 import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
@@ -250,14 +249,13 @@ const MyAccount = () => {
 
 
                           {/* Gráficos */}
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <DonationsChart donations={filteredDonations} />
-                            <DonationsPieChart donations={filteredDonations} />
+                          <div className="grid grid-cols-1 gap-6">
+                            <DonationsLineChart donations={filteredDonations} />
                           </div>
                           
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                             <WeeklyRevenueChart />
-                            <DonationsLineChart donations={filteredDonations} />
+                            <DonationsPieChart donations={filteredDonations} />
                           </div>
 
                           {/* Tabela de doações detalhada */}
