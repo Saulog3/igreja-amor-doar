@@ -21,7 +21,7 @@ A plataforma permite:
 - [Tailwind CSS](https://tailwindcss.com/)  
 - [TypeScript](https://www.typescriptlang.org/)  
 - [Supabase](https://supabase.com/) – autenticação e banco de dados  
-- [Lovable.dev](https://lovable.dev/) – geração e edição assistida por IA  
+
 
 # Instalação Local
 
