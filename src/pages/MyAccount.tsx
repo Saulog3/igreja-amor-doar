@@ -10,16 +10,17 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import DashboardCard from "@/components/dashboard/DashboardCard";
+
+import SummaryCard from "@/components/dashboard/SummaryCard";
 import DonationsTable from "@/components/dashboard/DonationsTable";
-import DonationsChart from "@/components/dashboard/DonationsChart";
 import DonationsPieChart from "@/components/dashboard/DonationsPieChart";
 import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
 import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
+import WeeklyRevenueChart from "@/components/WeeklyRevenueChart";
 import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import { useDonations } from "@/hooks/useDonations";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, DollarSign, Users, TrendingUp, Clock } from "lucide-react";
+import { Loader2, Users, BarChart, Target, UserPlus, Trophy } from "lucide-react";
 
 const MyAccount = () => {
   const { user, profile, loading, signOut, updateProfile } = useAuth();
@@ -206,41 +207,56 @@ const MyAccount = () => {
                           {/* Filtros */}
                           <DashboardFilters onFilterChange={setFilters} />
                           
-                          {/* Métricas */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                            <DashboardCard
-                              title="Total Arrecadado"
-                              value={`R$ ${metrics.totalAmount.toFixed(2)}`}
-                              icon={DollarSign}
-                              description="Doações aprovadas"
+                          {/* Indicadores */}
+                          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                            <SummaryCard
+                              title="Valor Arrecadado"
+                              value="R$ 2.848K"
+                              percentage="12.5%"
+                              icon={<BarChart className="h-5 w-5" />}
+                              iconColor="#4f46e5"
                             />
-                            <DashboardCard
-                              title="Total de Doações"
-                              value={metrics.totalDonations}
-                              icon={TrendingUp}
-                              description="Doações concluídas"
+                            <SummaryCard
+                              title="Total de Doadores"
+                              value="12.849"
+                              percentage="8.2%"
+                              icon={<Users className="h-5 w-5" />}
+                              iconColor="#10b981"
                             />
-                            <DashboardCard
-                              title="Doadores Únicos"
-                              value={metrics.uniqueDonors}
-                              icon={Users}
-                              description="Pessoas diferentes"
+                            <SummaryCard
+                              title="Campanhas Ativas"
+                              value="45"
+                              percentage="3.1%"
+                              icon={<Target className="h-5 w-5" />}
+                              iconColor="#f59e0b"
                             />
-                            <DashboardCard
-                              title="Pendentes"
-                              value={`R$ ${metrics.pendingAmount.toFixed(2)}`}
-                              icon={Clock}
-                              description="Aguardando aprovação"
+                            <SummaryCard
+                              title="Novos Usuários"
+                              value="234"
+                              percentage="15.3%"
+                              icon={<UserPlus className="h-5 w-5" />}
+                              iconColor="#3b82f6"
                             />
-                          </div>
-
-                          {/* Gráficos */}
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                            <DonationsChart donations={filteredDonations} />
-                            <DonationsPieChart donations={filteredDonations} />
+                            <SummaryCard
+                              title="Meta Alcançada"
+                              value="78.5%"
+                              percentage="5.2%"
+                              icon={<Trophy className="h-5 w-5" />}
+                              iconColor="#8b5cf6"
+                            />
                           </div>
                           
-                          <DonationsLineChart donations={filteredDonations} />
+
+
+                          {/* Gráficos */}
+                          <div className="grid grid-cols-1 gap-6">
+                            <DonationsLineChart donations={filteredDonations} />
+                          </div>
+                          
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+                            <WeeklyRevenueChart />
+                            <DonationsPieChart donations={filteredDonations} />
+                          </div>
 
                           {/* Tabela de doações detalhada */}
                           <DetailedDonationsTable donations={filteredDonations} />

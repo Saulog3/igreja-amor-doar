@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Donation } from "@/types/database";
 import { format } from "date-fns";
 import { ptBR } from "date-fns/locale";
-import { Eye, Download, Filter } from "lucide-react";
+import { Eye, Download, Filter, ChevronRight } from "lucide-react";
 
 interface DetailedDonationsTableProps {
   donations: Donation[];
@@ -64,11 +64,11 @@ const DetailedDonationsTable = ({ donations, showInstitution = false }: Detailed
   };
 
   return (
-    <Card>
+    <Card className="mt-6 border-0 shadow-sm">
       <CardHeader className="flex flex-row items-center justify-between">
         <div>
-          <CardTitle>Histórico Detalhado de Doações</CardTitle>
-          <CardDescription>
+          <CardTitle className="text-lg font-semibold">Histórico Detalhado de Doações</CardTitle>
+          <CardDescription className="text-sm text-gray-500">
             {donations.length === 0 
               ? "Nenhuma doação encontrada" 
               : `${donations.length} doação(ões) encontrada(s)`
