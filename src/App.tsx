@@ -12,6 +12,7 @@ import DonatorSignup from "./pages/DonatorSignup";
 import InstitutionSignup from "./pages/InstitutionSignup";
 import Auth from "./pages/Auth";
 import MyAccount from "./pages/MyAccount";
+import Dashboard from "./pages/Dashboard";
 import NotFound from "./pages/NotFound";
 import Donate from "./pages/Donate";
 import CreateDonation from "./pages/CreateDonation";
@@ -37,6 +38,7 @@ const App = () => (
             <Route path="/institution-signup" element={<InstitutionSignup />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/minha-conta" element={<MyAccount />} />
+            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/donate" element={<Donate />} />
             <Route path="/create-donation" element={<CreateDonation />} />
             <Route path="/donate/:id" element={<DonateProcess />} />
