@@ -10,6 +10,9 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
 import { Institution } from "@/types/database";
+import { stringify } from "querystring";
+import { v4 as uuidv4 } from 'uuid';
+
 
 const DonateProcess = () => {
   const { id } = useParams<{ id: string }>();
@@ -40,6 +43,8 @@ const DonateProcess = () => {
           throw error || new Error("Instituição não encontrada");
         }
 
+        console.log('Instituição encontrada:', data);
+
         setInstitution(data);
       } catch (error: any) {
         toast({
@@ -62,6 +67,35 @@ const DonateProcess = () => {
 
     try {
       console.log('Iniciando processo de doação...');
+
+      
+      const paymentID = uuidv4();
+        // Agora registrar a doação no banco com o payment_id
+      const { data: donationData, error: donationError } = await supabase
+        .from("donations")
+        .insert({
+          institution_id: id!,
+          amount: donationAmount,
+          donor_name: donorName || null,
+          donor_email: donorEmail || null,
+          payment_method: 'mercado_pago',
+          payment_status: 'pending',
+          payment_id: paymentID
+        })
+        .select()
+        .single();
+
+      if (donationError) {
+        console.error('Erro ao registrar doação:', donationError);
+        throw donationError;
+      }
+
+      console.log('Doação registrada:', donationData);
+
+      toast({
+        title: "Doação iniciada!",
+        description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para processamento.`,
+      });
       
       // Primeiro, processar o pagamento no Mercado Pago
       const response = await fetch("https://65d5psjqh3.execute-api.sa-east-1.amazonaws.com/prod/mercado_pago", {
@@ -78,6 +112,7 @@ const DonateProcess = () => {
       console.log('Resposta do Mercado Pago:', response);
 
       if (!response.ok) {
+        await updatePayment(paymentID, 'cancelled');
         throw new Error("Erro ao processar doação");
       }
 
@@ -89,32 +124,7 @@ const DonateProcess = () => {
         throw new Error("Erro na configuração do pagamento");
       }
 
-      // Agora registrar a doação no banco com o payment_id
-      const { data: donationData, error: donationError } = await supabase
-        .from("donations")
-        .insert({
-          institution_id: id!,
-          amount: donationAmount,
-          donor_name: donorName || null,
-          donor_email: donorEmail || null,
-          payment_method: 'mercado_pago',
-          payment_status: 'pending',
-          payment_id: paymentData.response.id
-        })
-        .select()
-        .single();
 
-      if (donationError) {
-        console.error('Erro ao registrar doação:', donationError);
-        throw donationError;
-      }
-
-      console.log('Doação registrada:', donationData);
-
-      toast({
-        title: "Doação iniciada!",
-        description: `Sua doação de R$ ${donationAmount.toFixed(2)} foi enviada para processamento.`,
-      });
 
       // Redirecionar para o Mercado Pago
       window.location.href = paymentData.response.init_point;
@@ -130,6 +140,7 @@ const DonateProcess = () => {
       setSubmitting(false);
     }
   };
+
 
   if (loading) {
     return (
@@ -267,6 +278,22 @@ const DonateProcess = () => {
       <Footer />
     </div>
   );
+};
+
+const updatePayment = async (paymentId: string, status: string) => {
+  const { data, error } = await supabase
+    .from('donations')
+    .update({ payment_status: status as "pending" | "approved" | "rejected" | "cancelled" | "refunded" })
+    .eq('payment_id', paymentId)
+    .select()
+    .single();
+
+  if (error) {
+    console.error('Erro ao atualizar pagamento:', error);
+    throw error;
+  }
+
+  return data;
 };
 
 export default DonateProcess;
