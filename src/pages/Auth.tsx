@@ -17,7 +17,7 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
-  const [isInstitution, setIsInstitution] = useState(false);
+  // Todos os usuários serão registrados como doadores por padrão
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -29,7 +29,7 @@ const Auth = () => {
     await signUp(email, password, {
       full_name: fullName,
       username,
-      is_institution: isInstitution === true,
+      is_institution: false, // Todos os usuários serão registrados como doadores por padrão
     });
   };
 
@@ -157,21 +157,7 @@ const Auth = () => {
                       required
                     />
                   </div>
-                  <div className="flex items-center space-x-2">
-                    <Checkbox 
-                      id="isInstitution" 
-                      checked={isInstitution}
-                      onCheckedChange={(checked) => 
-                        setIsInstitution(checked === true)
-                      }
-                    />
-                    <label
-                      htmlFor="isInstitution"
-                      className="text-sm font-medium leading-none"
-                    >
-                      Sou uma instituição religiosa
-                    </label>
-                  </div>
+                  {/* Opção de instituição religiosa removida - gerenciamento feito pelo backend */}
                 </CardContent>
                 <CardFooter>
                   <Button

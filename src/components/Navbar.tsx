@@ -57,6 +57,10 @@ const Navbar = () => {
                 <span>Minha conta</span>
               </Link>
               
+              <Link to="/dashboard" className="text-gray-700 hover:text-solidario-blue">
+                Dashboard
+              </Link>
+              
               {isAdmin() && (
                 <Link to="/admin" className="text-gray-700 hover:text-solidario-blue">
                   Admin
@@ -110,6 +114,14 @@ const Navbar = () => {
                         <p className="font-medium">{profile?.full_name || user.email}</p>
                         <p className="text-sm text-gray-500">Ver perfil</p>
                       </div>
+                    </Link>
+                    
+                    <Link 
+                      to="/dashboard" 
+                      className="flex items-center gap-2" 
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Dashboard
                     </Link>
                     
                     {isAdmin() && (
