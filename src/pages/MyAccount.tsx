@@ -17,6 +17,7 @@ import DonationsPieChart from "@/components/dashboard/DonationsPieChart";
 import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
 import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
 import WeeklyRevenueChart from "@/components/WeeklyRevenueChart";
+import DonationsChart from "@/components/dashboard/DonationsChart";
 import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import { useDonations } from "@/hooks/useDonations";
 import { supabase } from "@/integrations/supabase/client";
@@ -249,13 +250,14 @@ const MyAccount = () => {
 
 
                           {/* Gráficos */}
-                          <div className="grid grid-cols-1 gap-6">
+                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                            <DonationsChart donations={filteredDonations} />
                             <DonationsLineChart donations={filteredDonations} />
                           </div>
                           
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                            <WeeklyRevenueChart />
                             <DonationsPieChart donations={filteredDonations} />
+                            <WeeklyRevenueChart />
                           </div>
 
                           {/* Tabela de doações detalhada */}

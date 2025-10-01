@@ -15,7 +15,6 @@ const Navbar = () => {
   const menuItems = [
     { label: "Home", path: "/" },
     { label: "Como Funciona", path: "/how-it-works" },
-    { label: "Doar", path: "/donate" },
     { label: "Contato", path: "/contact" },
   ];
 
@@ -37,9 +36,6 @@ const Navbar = () => {
           </Link>
           <Link to="/contact" className="text-gray-700 hover:text-solidario-blue">
             Contato
-          </Link>
-          <Link to="/donate" className="text-gray-700 hover:text-solidario-blue">
-            Doar
           </Link>
           <div className="relative flex items-center">
             <Search className="absolute left-3 h-5 w-5 text-gray-400" />
@@ -160,13 +156,6 @@ const Navbar = () => {
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Contato
-                  </Link>
-                  <Link 
-                    to="/donate" 
-                    className="block text-lg" 
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Doar
                   </Link>
                 </div>
                 
