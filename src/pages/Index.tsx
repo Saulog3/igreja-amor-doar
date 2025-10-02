@@ -37,7 +37,7 @@ const Index = () => {
     {
       id: 1,
       title: "Ajude quem precisa",
-      description: "Suas doações fazem a diferença na vida de muitas pessoas.",
+      description: "Suas doações fazem a diferença na vida de muitas pesssoas, ajudar com aquelas que enfrentam momentos de dificuldade.",
       detailedDescription: "Através do seu apoio, podemos fornecer recursos essenciais como alimentos, roupas, medicamentos e abrigo para pessoas em situação de vulnerabilidade. Cada doação, independente do valor, contribui para transformar vidas e oferecer esperança àqueles que mais precisam. Nossos projetos atendem desde famílias em situação de pobreza até pessoas em situação de rua, garantindo dignidade e apoio em momentos difíceis.",
       image: "https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?auto=format&fit=crop&q=80&w=1000",
     },
