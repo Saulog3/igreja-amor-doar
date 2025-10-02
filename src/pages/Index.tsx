@@ -45,7 +45,7 @@ const Index = () => {
       id: 2,
       title: "Comunidades fortalecidas",
       description: "Apoie projetos sociais e fortaleça comunidades inteiras.",
-      detailedDescription: "Nossos projetos de fortalecimento comunitário visam desenvolver capacidades locais e promover a autonomia de comunidades vulneráveis. Trabalhamos com lideranças locais para identificar necessidades e implementar soluções sustentáveis que beneficiem toda a comunidade. Isso inclui programas de capacitação profissional, desenvolvimento de infraestrutura comunitária, e iniciativas de economia solidária que geram renda e oportunidades para todos os moradores.",
+      detailedDescription: "Apoiar iniciativas que incentivam o desenvolvimento coletivo, como projetos comunitários.",
       image: "https://images.unsplash.com/photo-1593113598332-cd59a0c3a9a1?auto=format&fit=crop&q=80&w=1000",
     },
     {
