@@ -2,6 +2,36 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes carouselFade {
+  0%, 15% { opacity: 1; }
+  20%, 95% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.carousel-slide-0 {
+  animation: carouselFade 15s infinite;
+}
+
+.carousel-slide-1 {
+  animation: carouselFade 15s infinite;
+  animation-delay: 3s;
+}
+
+.carousel-slide-2 {
+  animation: carouselFade 15s infinite;
+  animation-delay: 6s;
+}
+
+.carousel-slide-3 {
+  animation: carouselFade 15s infinite;
+  animation-delay: 9s;
+}
+
+.carousel-slide-4 {
+  animation: carouselFade 15s infinite;
+  animation-delay: 12s;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;

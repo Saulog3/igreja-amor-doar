@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
 import { Institution } from "@/types/database";
 import { stringify } from "querystring";
-import { v4 as uuidv4 } from 'uuid';
+// Removendo importação do uuid que estava causando erro
 
 
 const DonateProcess = () => {
@@ -69,7 +69,8 @@ const DonateProcess = () => {
       console.log('Iniciando processo de doação...');
 
       
-      const paymentID = uuidv4();
+      // Gerando um ID único sem depender do pacote uuid
+      const paymentID = `payment-${Date.now()}-${Math.random().toString(36).substring(2, 15)}`;
         // Agora registrar a doação no banco com o payment_id
       const { data: donationData, error: donationError } = await supabase
         .from("donations")

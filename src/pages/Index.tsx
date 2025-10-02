@@ -245,12 +245,23 @@ const Index = () => {
             </h2>
 
             <div className="flex flex-col md:flex-row gap-10 items-center">
-              <div className="flex-1">
-                <img
-                  src="/lovable-uploads/novas.jpg"
-                  alt="Pessoas solidárias"
-                  className="rounded-lg w-full"
-                />
+              <div className="flex-1 relative overflow-hidden rounded-lg">
+                <div className="carousel-container h-[300px]">
+                  {[
+                    "/lovable-uploads/novas.jpg",
+                    "/lovable-uploads/espirita.jpg",
+                    "/lovable-uploads/mesquita.jpg",
+                    "/lovable-uploads/paz.jpg",
+                    "/lovable-uploads/pessoas.jpg"
+                  ].map((image, index) => (
+                    <img
+                      key={index}
+                      src={image}
+                      alt={`Imagem ${index + 1}`}
+                      className={`absolute top-0 left-0 w-full h-full object-cover rounded-lg carousel-slide-${index}`}
+                    />
+                  ))}
+                </div>
               </div>
 
               <div className="flex-1">
