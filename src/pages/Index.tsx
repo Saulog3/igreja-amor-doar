@@ -377,29 +377,69 @@ const Index = () => {
               className="w-full"
             >
               <CarouselContent>
-                {[1, 2, 3].map((item) => (
+                {[
+                  {
+                    name: "Maria Santos",
+                    role: "Doadora",
+                    institution: "Igreja Nossa Senhora da Paz",
+                    testimonial: "A plataforma Solidario+ mudou a forma como fazemos doações. É fácil, seguro e transparente. Consigo acompanhar todas as minhas contribuições e ver o impacto que estou causando.",
+                    initial: "M"
+                  },
+                  {
+                    name: "João Silva",
+                    role: "Doador",
+                    institution: "Igreja Batista Esperança",
+                    testimonial: "Excelente plataforma! Finalmente posso doar com segurança e transparência. O sistema de acompanhamento das doações é fantástico e me dá confiança total.",
+                    initial: "J"
+                  },
+                  {
+                    name: "Ana Costa",
+                    role: "Doadora",
+                    institution: "Igreja Metodista Central",
+                    testimonial: "Uso a plataforma há 6 meses e estou muito satisfeita. É muito prático poder fazer doações online e receber relatórios detalhados de como meu dinheiro está sendo usado.",
+                    initial: "A"
+                  },
+                  {
+                    name: "Carlos Oliveira",
+                    role: "Pastor",
+                    institution: "Igreja Assembleia de Deus",
+                    testimonial: "Como pastor, posso dizer que esta plataforma revolucionou nossa gestão de doações. Temos total transparência e nossos fiéis confiam mais no processo.",
+                    initial: "C"
+                  },
+                  {
+                    name: "Fernanda Lima",
+                    role: "Doadora",
+                    institution: "Igreja Católica São José",
+                    testimonial: "Simplesmente perfeita! A interface é intuitiva e o processo de doação é muito seguro. Recomendo para todos que querem contribuir de forma responsável.",
+                    initial: "F"
+                  },
+                  {
+                    name: "Roberto Mendes",
+                    role: "Tesoureiro",
+                    institution: "Igreja Presbiteriana do Brasil",
+                    testimonial: "A transparência oferecida pela plataforma é impressionante. Como tesoureiro da igreja, posso gerenciar todas as doações de forma eficiente e clara.",
+                    initial: "R"
+                  }
+                ].map((testimonial, index) => (
                   <CarouselItem
-                    key={item}
+                    key={index}
                     className="md:basis-1/2 lg:basis-1/3"
                   >
                     <div className="p-1">
                       <div className="bg-gray-50 rounded-lg p-6 shadow-sm h-full">
                         <div className="flex items-center mb-4">
-                          <div className="w-12 h-12 bg-solidario-blue rounded-full flex items-center justify-center text-white font-bold">
-                            {item}
+                          <div className="w-12 h-12 bg-solidario-blue rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            {testimonial.initial}
                           </div>
                           <div className="ml-4">
-                            <h4 className="font-bold">Nome da Pessoa</h4>
+                            <h4 className="font-bold">{testimonial.name}</h4>
                             <p className="text-sm text-gray-600">
-                              Doador / Instituição
+                              {testimonial.role} - {testimonial.institution}
                             </p>
                           </div>
                         </div>
                         <p className="text-gray-700">
-                          "A plataforma Solidario+ mudou a forma como fazemos
-                          doações. É fácil, seguro e transparente. Consigo
-                          acompanhar todas as minhas contribuições e ver o
-                          impacto que estou causando."
+                          "{testimonial.testimonial}"
                         </p>
                       </div>
                     </div>
