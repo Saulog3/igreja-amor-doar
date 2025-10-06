@@ -52,7 +52,7 @@ const Index = () => {
       detailedDescription:
         "Quando a comunidade se fortalece, todos crescem juntos. Essa causa promove união, geração de renda e oportunidades, transformando bairros em espaços mais justos, acolhedores e cheios de esperança.",
       image:
-        "https://images.unsplash.com/photo-1593113598332-cd59a0c3a9a1?auto=format&fit=crop&q=80&w=1000",
+        "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&q=80&w=1000",
     },
     {
       id: 3,

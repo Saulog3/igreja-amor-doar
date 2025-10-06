@@ -177,11 +177,11 @@ const DonateProcess = () => {
             <>
               <div className="flex flex-col md:flex-row gap-8 mb-10">
                 <div className="md:w-1/3">
-                  <img
-                    src={institution.logo_url || "https://images.unsplash.com/photo-1504675975031-96dbf10b5078?q=80&w=1770&auto=format&fit=crop"}
-                    alt={institution.name}
-                    className="w-full h-48 object-cover rounded-lg shadow-md"
-                  />
+                    <img
+                      src={institution.logo_url || "https://images.unsplash.com/photo-1504675975031-96dbf10b5078?q=80&w=1770&auto=format&fit=crop"}
+                      alt={institution.name}
+                      className="w-full h-48 object-cover rounded-lg shadow-md"
+                    />
                 </div>
                 <div className="md:w-2/3">
                   <h1 className="text-3xl font-bold mb-2">{institution.name}</h1>

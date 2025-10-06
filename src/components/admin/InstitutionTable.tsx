@@ -116,11 +116,11 @@ const InstitutionTable = ({
                 <TableRow key={institution.id}>
                   <TableCell>
                     <div className="w-16 h-16 rounded-md overflow-hidden">
-                      <img
-                        src={institution.logo_url || "https://images.unsplash.com/photo-1504675975031-96dbf10b5078?q=80&w=1770&auto=format&fit=crop"}
-                        alt={institution.name}
-                        className="w-full h-full object-cover"
-                      />
+                        <img
+                          src={institution.logo_url || "https://images.unsplash.com/photo-1504675975031-96dbf10b5078?q=80&w=1770&auto=format&fit=crop"}
+                          alt={institution.name}
+                          className="w-full h-full object-cover"
+                        />
                     </div>
                   </TableCell>
                   <TableCell className="font-medium">{institution.name}</TableCell>
@@ -183,11 +183,11 @@ const InstitutionTable = ({
             <div className="space-y-4">
               <div className="w-full overflow-hidden rounded-lg">
                 <AspectRatio ratio={16/9}>
-                  <img
-                    src={selectedInstitution.logo_url || "https://images.unsplash.com/photo-1504675975031-96dbf10b5078?q=80&w=1770&auto=format&fit=crop"}
-                    alt={selectedInstitution.name}
-                    className="w-full h-full object-cover"
-                  />
+                    <img
+                      src={selectedInstitution.logo_url || "https://images.unsplash.com/photo-1504675975031-96dbf10b5078?q=80&w=1770&auto=format&fit=crop"}
+                      alt={selectedInstitution.name}
+                      className="w-full h-full object-cover"
+                    />
                 </AspectRatio>
               </div>
               

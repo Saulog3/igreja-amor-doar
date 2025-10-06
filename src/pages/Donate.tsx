@@ -75,7 +75,13 @@ const Donate = () => {
                   id={institution.id}
                   name={institution.name}
                   description={institution.description}
-                  logoUrl={institution.logo_url}
+                  logoUrl={
+                    institution.name.includes("Assembleia de Deus Ministério Ferreira")
+                      ? "https://lh3.googleusercontent.com/proxy/jB2GLDzFw6WoCE0slkA4y7sK6BexQiw1vu0NmZIRlq6m_cexGkYB6IX8tekjKeq7Z-4fOZInhkIZzSUfQgfSNDaMjY8vgufT7nvnj3Bbw80WALqpME_zAwT86RWZknBNn9HKKShSjPZTEthWbKKr4B9Z0HN0FQURnfmTtQ=s680-w680-h510-rw"
+                      : institution.name.includes("Mesquita Al-Nur")
+                        ? "/lovable-uploads/mesquita.jpg"
+                        : institution.logo_url
+                  }
                 />
               ))}
             </div>
