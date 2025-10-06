@@ -178,6 +178,12 @@ const Index = () => {
           secondaryButton={{ text: "Criar Doação", link: "/create-donation" }}
         />
 
+        {/* Elfsight AI Chatbot Component */}
+        <div className="elfsight-app-0b0d22bf-44d7-4067-975c-7666a6cffcd6" data-elfsight-app-lazy></div>
+
+        {/* Carrossel de imagens */}
+        <div className="elfsight-app-0b0d22bf-44d7-4067-975c-7666a6cffcd6" data-elfsight-app-lazy></div>
+
         {/* Carrossel de imagens */}
         <section className="py-16 px-6 bg-gray-50">
           <div className="container mx-auto max-w-6xl">
