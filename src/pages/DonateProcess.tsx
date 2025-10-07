@@ -130,7 +130,8 @@ const DonateProcess = () => {
 
 
       // Redirecionar para o Mercado Pago
-      window.location.href = paymentData.response.payment_url;
+      window.location.href = paymentData.response.url;
+      
       
     } catch (error: any) {
       console.error('Erro no processo de doação:', error);
