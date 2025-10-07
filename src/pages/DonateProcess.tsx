@@ -106,6 +106,8 @@ const DonateProcess = () => {
         },
         body: JSON.stringify({
           unit_price: donationAmount,
+          donation_id: donationData.id,
+          user_id: donationData.payment_id,
           external_reference: `${id}-${Date.now()}`, // Usar uma referência única temporária
         }),
       });
@@ -128,7 +130,7 @@ const DonateProcess = () => {
 
 
       // Redirecionar para o Mercado Pago
-      window.location.href = paymentData.response.init_point;
+      window.location.href = paymentData.response.payment_url;
       
     } catch (error: any) {
       console.error('Erro no processo de doação:', error);
