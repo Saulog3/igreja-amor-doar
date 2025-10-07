@@ -130,14 +130,7 @@ const DonateProcess = () => {
 
 
       // Redirecionar para o Mercado Pago
-      // window.location.href = paymentData.response.url;
-      let redirectUrl = paymentData.response.url;
-      if (redirectUrl.includes('?')) {
-        redirectUrl += `&external_reference=${donationData.id}`;
-      } else {
-        redirectUrl += `?external_reference=${donationData.id}`;
-      }
-      window.location.href = redirectUrl;
+      window.location.href = paymentData.response.url;
       
       
     } catch (error: any) {
