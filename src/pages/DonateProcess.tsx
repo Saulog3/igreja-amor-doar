@@ -122,10 +122,10 @@ const DonateProcess = () => {
       const paymentData = await response.json();
       console.log('Dados do pagamento:', paymentData);
 
-      if (!paymentData.response || !paymentData.response.init_point) {
-        console.error("init_point não encontrado na resposta");
-        throw new Error("Erro na configuração do pagamento");
-      }
+      // if (!paymentData.response || !paymentData.response.init_point) {
+      //   console.error("init_point não encontrado na resposta");
+      //   throw new Error("Erro na configuração do pagamento");
+      // }
 
 
 
