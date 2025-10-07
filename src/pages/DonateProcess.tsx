@@ -11,7 +11,7 @@ import { useToast } from "@/hooks/use-toast";
 import { ArrowLeft } from "lucide-react";
 import { Institution } from "@/types/database";
 import { stringify } from "querystring";
-// Removendo importação do uuid que estava causando erro
+
 
 
 const DonateProcess = () => {
@@ -122,15 +122,25 @@ const DonateProcess = () => {
       const paymentData = await response.json();
       console.log('Dados do pagamento:', paymentData);
 
-      // if (!paymentData.response || !paymentData.response.init_point) {
-      //   console.error("init_point não encontrado na resposta");
-      //   throw new Error("Erro na configuração do pagamento");
-      // }
+      const redirectUrl =
+        paymentData?.response?.url ||
+        paymentData?.response?.init_point ||
+        paymentData?.init_point ||
+        paymentData?.url ||
+        paymentData?.payment_link?.url ||
+        paymentData?.body?.init_point;
+
+      if (!redirectUrl) {
+        console.error('URL de redirecionamento não encontrada em paymentData', paymentData);
+        // marca pagamento como cancelado se não houver URL
+        await updatePayment(paymentID, 'cancelled');
+        throw new Error('Erro na configuração do pagamento: URL de redirecionamento não encontrada.');
+      }
 
 
 
       // Redirecionar para o Mercado Pago
-      window.location.href = paymentData.response.url;
+      window.location.href = redirectUrl;;
       
       
     } catch (error: any) {
