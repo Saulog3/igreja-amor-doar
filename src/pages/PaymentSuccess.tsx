@@ -1,6 +1,6 @@
 
-import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useMemo } from "react";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -9,6 +9,17 @@ import { Check } from "lucide-react";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+
+  const donationParams = useMemo(() => {
+    const entries = Array.from(searchParams.entries());
+    // Normaliza algumas chaves comuns
+    const map: Record<string, string> = {};
+    for (const [key, value] of entries) {
+      map[key] = value;
+    }
+    return map;
+  }, [searchParams]);
   
   // Opcional: registrar o sucesso do pagamento
   useEffect(() => {
@@ -32,6 +43,21 @@ const PaymentSuccess = () => {
               <p className="text-gray-600 mb-6">
                 Sua doação foi processada com sucesso. Agradecemos por sua generosidade e apoio.
               </p>
+
+              {/* Resumo dos query params, se existirem */}
+              {Object.keys(donationParams).length > 0 && (
+                <div className="w-full text-left bg-gray-100 rounded-md p-4 mb-6">
+                  <h2 className="font-semibold mb-2">Resumo da Doação</h2>
+                  <div className="space-y-1 text-sm text-gray-700">
+                    {Object.entries(donationParams).map(([key, value]) => (
+                      <div key={key} className="flex justify-between">
+                        <span className="font-medium capitalize">{key.replace(/[_-]/g, " ")}</span>
+                        <span>{value}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
               
               <div className="space-y-3 w-full">
                 <Button 
