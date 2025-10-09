@@ -5,12 +5,54 @@ import { Input } from '@/components/ui/input';
 import { Search, Menu } from 'lucide-react';
 import { useAuth } from '@/contexts/AuthContext';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { Sheet, SheetTrigger, SheetContent } from '@/components/ui/sheet';
+
+// Hook para rolar até a âncora após navegação para home
+function useScrollToAnchorOnHome() {
+  const location = useLocation();
+  useEffect(() => {
+    if (location.pathname === '/' && location.state?.anchor) {
+      const anchor = location.state.anchor;
+      setTimeout(() => {
+        const el = document.getElementById(anchor);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 100);
+    }
+  }, [location]);
+}
+
 
 const Navbar = () => {
+  useScrollToAnchorOnHome();
   const { user, profile, signOut, isAdmin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+
+
+  // Função para rolar até a âncora
+  function scrollToAnchor(anchor) {
+    const el = document.getElementById(anchor);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth' });
+    }
+  }
+
+  // Handler para links de âncora
+  function handleAnchorClick(e, anchor) {
+    e.preventDefault();
+    if (location.pathname !== '/') {
+      navigate('/', { state: { anchor } });
+    } else {
+      scrollToAnchor(anchor);
+    }
+  }
+
+
 
   const menuItems = [
     { label: "Home", path: "/" },
@@ -31,13 +73,25 @@ const Navbar = () => {
         </Link>
         
         <div className="hidden md:flex space-x-8 items-center">
-          <a href="#destaque" className="text-gray-700 hover:text-solidario-blue">
+          <a
+            href="#destaque"
+            className="text-gray-700 hover:text-solidario-blue"
+            onClick={e => handleAnchorClick(e, 'destaque')}
+          >
             Destaque
           </a>
-          <a href="#como_funciona" className="text-gray-700 hover:text-solidario-blue">
+          <a
+            href="#como_funciona"
+            className="text-gray-700 hover:text-solidario-blue"
+            onClick={e => handleAnchorClick(e, 'como_funciona')}
+          >
             Como funciona
           </a>
-          <a href="#depoimentos" className="text-gray-700 hover:text-solidario-blue">
+          <a
+            href="#depoimentos"
+            className="text-gray-700 hover:text-solidario-blue"
+            onClick={e => handleAnchorClick(e, 'depoimentos')}
+          >
             Depoimentos
           </a>
           <Link to="/contact" className="text-gray-700 hover:text-solidario-blue">
@@ -95,9 +149,37 @@ const Navbar = () => {
                 >
                   Solidario+
                 </Link>
-                
+                {/* Links de âncora no menu mobile */}
+                <a
+                  href="#destaque"
+                  className="block text-lg"
+                  onClick={e => { handleAnchorClick(e, 'destaque'); setIsMenuOpen(false); }}
+                >
+                  Destaque
+                </a>
+                <a
+                  href="#como_funciona"
+                  className="block text-lg"
+                  onClick={e => { handleAnchorClick(e, 'como_funciona'); setIsMenuOpen(false); }}
+                >
+                  Como funciona
+                </a>
+                <a
+                  href="#depoimentos"
+                  className="block text-lg"
+                  onClick={e => { handleAnchorClick(e, 'depoimentos'); setIsMenuOpen(false); }}
+                >
+                  Depoimentos
+                </a>
+                <Link 
+                  to="/contact" 
+                  className="block text-lg" 
+                  onClick={() => setIsMenuOpen(false)}
+                >
+                  Contato
+                </Link>
                 {user ? (
-                  <div className="flex flex-col gap-4">
+                  <div className="flex flex-col gap-4 mt-4">
                     <Link 
                       to="/minha-conta" 
                       className="flex items-center gap-2" 
@@ -114,7 +196,6 @@ const Navbar = () => {
                         <p className="text-sm text-gray-500">Ver perfil</p>
                       </div>
                     </Link>
-                    
                     <Link 
                       to="/dashboard" 
                       className="flex items-center gap-2" 
@@ -122,7 +203,6 @@ const Navbar = () => {
                     >
                       Dashboard
                     </Link>
-                    
                     {isAdmin() && (
                       <Link 
                         to="/admin" 
@@ -132,7 +212,6 @@ const Navbar = () => {
                         Admin
                       </Link>
                     )}
-                    
                     <Button 
                       variant="outline" 
                       onClick={() => {
@@ -152,24 +231,6 @@ const Navbar = () => {
                     <Button className="w-full">Entrar / Cadastrar</Button>
                   </Link>
                 )}
-                
-                <div className="space-y-4 mt-4">
-                  <Link 
-                    to="/how-it-works" 
-                    className="block text-lg" 
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Como funciona
-                  </Link>
-                  <Link 
-                    to="/contact" 
-                    className="block text-lg" 
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Contato
-                  </Link>
-                </div>
-                
                 <Link 
                   to="/donate" 
                   onClick={() => setIsMenuOpen(false)}
@@ -185,6 +246,6 @@ const Navbar = () => {
       </div>
     </nav>
   );
-};
+}
 
 export default Navbar;
