@@ -24,11 +24,11 @@ const HowItWorks = () => {
           items={[
             {
               title: "Crie sua conta",
-              description: "Registre-se em menos de 2 minutos com seus dados básicos e comece a fazer doações."
+              description: "Registre-se em menos de 2 minutos com seus dados."
             },
             {
               title: "Escolha como doar",
-              description: "Doe diretamente para instituições ou crie/apoie campanhas específicas."
+              description: "Doe diretamente para a instituição que você faz parte."
             },
             {
               title: "Faça sua doação",
@@ -51,31 +51,31 @@ const HowItWorks = () => {
         
         <FeatureSection
           title="Para Instituições"
-          subtitle="Como sua instituição pode receber e gerenciar doações"
+          subtitle="Como sua instituição pode ser cadastrada em nossa plataforma, e receber e gerenciar doações"
           className="bg-gray-50"
           items={[
             {
-              title: "Cadastre sua instituição",
-              description: "Registre sua igreja ou instituição religiosa com documentação básica."
+              title: "Como se cadastrar",
+              description: "A instituição deve preencher um formulário de solicitação."
             },
             {
-              title: "Configure sua página",
-              description: "Crie uma página atraente e informe sobre sua missão e necessidades."
+              title: "Como tenho acesso",
+              description: "Após a aprovação, o Solidário+ enviará o login e senha de acesso."
+            },
+            {
+              title: "Crie doações",
+              description: "Lance doações específicas para projetos ou necessidades especiais."
             },
             {
               title: "Receba doações",
               description: "Comece a receber doações de pessoas em todo o país."
             },
             {
-              title: "Crie campanhas",
-              description: "Lance campanhas específicas para projetos ou necessidades especiais."
-            },
-            {
               title: "Gerencie recursos",
               description: "Use nosso painel para acompanhar entradas e administrar recursos."
             },
             {
-              title: "Mantenha doadores informados",
+              title: "Compartilhe os resultados",
               description: "Compartilhe atualizações e resultados com seus apoiadores."
             }
           ]}

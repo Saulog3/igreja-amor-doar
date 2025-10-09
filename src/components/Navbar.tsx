@@ -31,19 +31,18 @@ const Navbar = () => {
         </Link>
         
         <div className="hidden md:flex space-x-8 items-center">
-          <Link to="/how-it-works" className="text-gray-700 hover:text-solidario-blue">
+          <a href="#destaque" className="text-gray-700 hover:text-solidario-blue">
+            Destaque
+          </a>
+          <a href="#como_funciona" className="text-gray-700 hover:text-solidario-blue">
             Como funciona
-          </Link>
+          </a>
+          <a href="#depoimentos" className="text-gray-700 hover:text-solidario-blue">
+            Depoimentos
+          </a>
           <Link to="/contact" className="text-gray-700 hover:text-solidario-blue">
             Contato
           </Link>
-          <div className="relative flex items-center">
-            <Search className="absolute left-3 h-5 w-5 text-gray-400" />
-            <Input
-              placeholder="Buscar"
-              className="pl-10 rounded-full border-gray-300 w-40 md:w-64 focus:border-solidario-blue focus:ring-solidario-blue"
-            />
-          </div>
           
           {user ? (
             <div className="flex items-center gap-4">

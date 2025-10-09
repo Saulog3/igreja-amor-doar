@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import Navbar from "@/components/Navbar";
@@ -6,26 +5,24 @@ import Footer from "@/components/Footer";
 import InstitutionCard from "@/components/InstitutionCard";
 import { useToast } from "@/hooks/use-toast";
 import { Institution } from "@/types/database";
+import { Input } from "@/components/ui/input"; // 👈 certifique-se que esse componente existe
+import { Search } from "lucide-react"; // 👈 ícone
 
 const Donate = () => {
   const [institutions, setInstitutions] = useState<Institution[]>([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState(""); // 👈 estado da busca
   const { toast } = useToast();
 
   useEffect(() => {
     const fetchInstitutions = async () => {
       try {
-        // Usando 'from' com tipagem any para contornar o erro de TypeScript
-        // enquanto o Supabase não atualiza os tipos automaticamente
         const { data, error } = await (supabase as any)
           .from("institutions")
           .select("id, name, description, logo_url")
           .order("name");
 
-        if (error) {
-          throw error;
-        }
-
+        if (error) throw error;
         setInstitutions(data || []);
       } catch (error: any) {
         toast({
@@ -41,6 +38,11 @@ const Donate = () => {
     fetchInstitutions();
   }, [toast]);
 
+  // 🔍 Filtrar instituições pelo nome
+  const filteredInstitutions = institutions.filter((institution) =>
+    institution.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
@@ -55,6 +57,18 @@ const Donate = () => {
             </p>
           </div>
 
+          {/* 🔍 Campo de busca */}
+          <div className="relative flex items-center mb-10">
+            <Search className="absolute left-3 h-5 w-5 text-gray-400" />
+            <Input
+              placeholder="Buscar"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)} // 👈 atualiza busca
+              className="pl-10 rounded-full border-gray-300 w-40 md:w-64 focus:border-solidario-blue focus:ring-solidario-blue"
+            />
+          </div>
+
+          {/* Renderização das instituições */}
           {loading ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {Array(6).fill(0).map((_, index) => (
@@ -67,9 +81,9 @@ const Donate = () => {
                 </div>
               ))}
             </div>
-          ) : institutions.length > 0 ? (
+          ) : filteredInstitutions.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {institutions.map((institution) => (
+              {filteredInstitutions.map((institution) => (
                 <InstitutionCard
                   key={institution.id}
                   id={institution.id}

@@ -1,6 +1,6 @@
-import { Button } from "@/components/ui/button";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import { Button } from "@/components/ui/button";
 import Hero from "@/components/Hero";
 import InfoSection from "@/components/InfoSection";
 import FeatureSection from "@/components/FeatureSection";
@@ -185,7 +185,7 @@ const Index = () => {
         <div className="elfsight-app-0b0d22bf-44d7-4067-975c-7666a6cffcd6" data-elfsight-app-lazy></div>
 
         {/* Carrossel de imagens */}
-        <section className="py-16 px-6 bg-gray-50">
+        <section className="py-16 px-6 bg-gray-50" id="destaque">
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-3xl font-bold mb-6 text-center">
               Causas em Destaque
@@ -276,31 +276,28 @@ const Index = () => {
                     Na Solidario+, transparência e controle são prioridades.
                   </h3>
                   <p className="text-gray-600">
-                    Por isso, tanto doadores quanto instituições têm acesso a
-                    análises detalhadas para acompanhar suas transações de forma
-                    clara e intuitiva.
+                    Por isso, tanto doadores quanto instituições têm acesso a análises detalhadas,
+                    permitindo acompanhar todas as transações de forma clara, intuitiva e segura.
                   </p>
                 </div>
 
                 <div className="mb-8">
-                  <h4 className="text-xl font-bold mb-2">Conta Doadora –</h4>
+                  <h4 className="text-xl font-bold mb-2">Conta Doadora</h4>
                   <p className="text-gray-600 mb-4">
-                    Além de fazer doações para instituições, você também pode
-                    criar uma vaquinha para causas específicas ou contribuir
-                    para campanhas já existentes. Acompanhe todas as suas
-                    doações, com datas e benefícios de cada transação,
-                    garantindo total controle sobre seu histórico de
-                    contribuições.
+                    Contribua com instituições religiosas e causas solidárias já cadastradas na plataforma.
+                    Você pode realizar doações, acompanhar seus valores, datas e benefícios e visualizar 
+                    métricas detalhadas sobre suas contribuições, tudo reunido em um histórico completo 
+                    para garantir total transparência.
                   </p>
                 </div>
 
                 <div className="mb-8">
                   <h4 className="text-xl font-bold mb-2">
-                    Conta Institucional –
+                    Conta Institucional
                   </h4>
                   <p className="text-gray-600 mb-4">
-                    Gerencie suas doações de forma eficiente, facilitando a
-                    gestão dos recursos.
+                    Receba e gerencie doações de forma eficiente com um painel exclusivo de análise financeira.
+                    Acompanhe valores em tempo real, visualize métricas e mantenha o controle total dos recursos recebidos.
                   </p>
                 </div>
 
@@ -330,6 +327,80 @@ const Index = () => {
           </div>
         </section>
 
+        <main className="flex-grow" >
+          <section className="bg-solidario-blue py-16 px-6" id="como_funciona">
+            <div className="container mx-auto max-w-4xl text-center">
+              <h1 className="text-4xl font-bold mb-6 text-white">Como Funciona</h1>
+              <p className="text-xl text-white/90 mb-8">
+                Entenda como a Solidario+ conecta doadores e instituições religiosas de forma simples, transparente e eficiente.
+              </p>
+            </div>
+          </section>
+          
+          <FeatureSection
+            title="Para Doadores"
+            subtitle="Como você pode contribuir e acompanhar suas doações"
+            items={[
+              {
+                title: "Crie sua conta",
+                description: "Registre-se em menos de 2 minutos com seus dados."
+              },
+              {
+                title: "Escolha como doar",
+                description: "Doe diretamente para a instituição que você faz parte."
+              },
+              {
+                title: "Faça sua doação",
+                description: "Escolha o valor e a forma de pagamento de sua preferência."
+              },
+              {
+                title: "Acompanhe o impacto",
+                description: "Visualize todas as suas doações e o impacto que você está causando."
+              },
+              {
+                title: "Receba comprovantes",
+                description: "Obtenha comprovantes fiscais e recibos para suas contribuições."
+              },
+              {
+                title: "Compartilhe",
+                description: "Convide amigos e família para apoiar causas importantes."
+              }
+            ]}
+          />
+          
+          <FeatureSection
+            title="Para Instituições"
+            subtitle="Como sua instituição pode ser cadastrada em nossa plataforma, e receber e gerenciar doações"
+            className="bg-gray-50"
+            items={[
+              {
+                title: "Como se cadastrar",
+                description: "A instituição deve preencher um formulário de solicitação."
+              },
+              {
+                title: "Como tenho acesso",
+                description: "Após a aprovação, o Solidário+ enviará o login e senha de acesso."
+              },
+              {
+                title: "Crie doações",
+                description: "Lance doações específicas para projetos ou necessidades especiais."
+              },
+              {
+                title: "Receba doações",
+                description: "Comece a receber doações de pessoas em todo o país."
+              },
+              {
+                title: "Gerencie recursos",
+                description: "Use nosso painel para acompanhar entradas e administrar recursos."
+              },
+              {
+                title: "Compartilhe os resultados",
+                description: "Compartilhe atualizações e resultados com seus apoiadores."
+              }
+            ]}
+          />
+        </main>
+
         <div className="bg-gray-50 py-16 px-6">
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-3xl font-bold mb-12 text-center">
@@ -339,14 +410,14 @@ const Index = () => {
             <div className="flex flex-col md:flex-row gap-10 justify-center">
               <AccountTypeCard
                 title="Conta Doadora"
-                description="Para pessoas que desejam fazer doações ou criar campanhas."
+                description="Destinada a pessoas que desejam contribuir com causas e instituições já cadastradas na plataforma."
                 features={[
-                  "Você pode doar diretamente para instituições de caridade.",
-                  "Possibilidade de iniciar uma campanha para uma causa específica.",
-                  "Apoie arrecadações já em andamento.",
-                  "Um gráfico interativo exibe métricas detalhadas.",
-                  "Visualização de valores doados, datas e benefícios de cada transação.",
-                  "Histórico de contribuições acessível para monitoramento.",
+                  "Faça doações diretamente para instituições de religiosas.",
+                  "Explore e apoie arrecadações em andamento.",
+                  "Navegue pelas páginas de diferentes religiões e causas.",
+                  "Acompanhe suas contribuições em um histórico detalhado.",
+                  "Veja gráficos interativos com métricas sobre suas doações.",
+                  "Consulte valores doados, datas e benefícios de cada transação.",
                 ]}
                 buttonText="Criar conta doadora"
                 linkTo="/auth"
@@ -354,13 +425,14 @@ const Index = () => {
 
               <AccountTypeCard
                 title="Conta Institucional"
-                description="Para igrejas e instituições religiosas que recebem doações."
+                description="Destinada a instituições religiosas que desejam receber doações por meio do Solidário+."
                 features={[
                   "Controle suas doações com um painel de análise financeira.",
-                  "Acompanhamento em tempo real dos valores recebidos.",
-                  "Ferramentas que auxiliam no controle dos recursos.",
-                  "Gestão eficiente das doações recebidas, datas e benefícios de cada transação.",
-                  "Histórico de contribuições acessível para monitoramento.",
+                  "Crie e receba doações diretamente pela plataforma Solidário+.",
+                  "Acompanhe em tempo real os valores arrecadados.",
+                  "Tenha acesso a um painel de análise financeira (dashboard) exclusivo.",
+                  "Visualize métricas detalhadas sobre transações, valores e datas.",
+                  "Consulte o histórico completo de doações recebidas."
                 ]}
                 buttonText="Criar conta institucional"
                 linkTo="/auth"
@@ -369,7 +441,7 @@ const Index = () => {
           </div>
         </div>
 
-        <section className="py-16 px-6 bg-white overflow-hidden">
+        <section className="py-16 px-6 bg-white overflow-hidden" id="depoimentos">
           <div className="container mx-auto max-w-6xl">
             <h2 className="text-3xl font-bold mb-2 text-center">Depoimentos</h2>
             <p className="text-gray-600 mb-12 text-center">
@@ -457,6 +529,49 @@ const Index = () => {
                 <CarouselNext className="relative inset-auto mx-2" />
               </div>
             </Carousel>
+          </div>
+        </section>
+
+        <section className="py-16 px-6 bg-white">
+          <div className="container mx-auto max-w-4xl">
+            <h2 className="text-3xl font-bold mb-6 text-center">Perguntas Frequentes</h2>
+            
+            <div className="space-y-6">
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="text-xl font-bold mb-2">Quais são as taxas cobradas?</h3>
+                <p className="text-gray-600">
+                  A Solidario+ cobra uma pequena taxa administrativa de 5% sobre cada doação para manter a plataforma funcionando. Taxas de processamento de pagamento são cobradas separadamente pelos nossos parceiros de pagamento.
+                </p>
+              </div>
+              
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="text-xl font-bold mb-2">Como posso fazer uma doação recorrente?</h3>
+                <p className="text-gray-600">
+                  Ao fazer sua doação, você pode marcar a opção "Doação mensal" e escolher o período desejado. Você pode cancelar ou modificar suas doações recorrentes a qualquer momento em seu painel.
+                </p>
+              </div>
+              
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="text-xl font-bold mb-2">Minha instituição religiosa precisa ter CNPJ?</h3>
+                <p className="text-gray-600">
+                  Sim, para receber doações através da plataforma, sua instituição precisa ter um CNPJ válido e documentação que comprove sua legitimidade.
+                </p>
+              </div>
+              
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="text-xl font-bold mb-2">Como são feitos os repasses para as instituições?</h3>
+                <p className="text-gray-600">
+                  Os repasses são feitos automaticamente a cada 15 dias para a conta bancária cadastrada pela instituição, descontadas as taxas aplicáveis.
+                </p>
+              </div>
+              
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="text-xl font-bold mb-2">Posso fazer doações anônimas?</h3>
+                <p className="text-gray-600">
+                  Sim, você pode escolher a opção de doação anônima ao fazer sua contribuição. Seus dados pessoais não serão compartilhados com a instituição beneficiada.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
       </main>
