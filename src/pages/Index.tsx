@@ -312,15 +312,16 @@ const Index = () => {
                       Quero Doar
                     </Button>
                   </Link>
-
-                  <Link to="/create-donation">
-                    <Button
-                      variant="outline"
-                      className="border-solidario-blue text-solidario-blue hover:bg-solidario-lightBlue/10 px-8 py-2"
-                    >
-                      Criar Doação
-                    </Button>
-                  </Link>
+                  {false && (
+                    <Link to="/create-donation">
+                      <Button
+                        variant="outline"
+                        className="border-solidario-blue text-solidario-blue hover:bg-solidario-lightBlue/10 px-8 py-2"
+                      >
+                        Criar Doação
+                      </Button>
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>

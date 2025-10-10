@@ -101,7 +101,8 @@ const Hero = ({ title, subtitle, primaryButton, secondaryButton }: HeroProps) =>
             </Button>
           </Link>
           
-          {secondaryButton && (
+          {/* Botão de criar doação temporariamente invisível */}
+          {false && secondaryButton && (
             <Link to={secondaryButton.link}>
               <Button variant="outline" className="border-solidario-blue text-solidario-blue hover:bg-solidario-lightBlue/10 px-8 py-6 text-lg rounded-md transition-all hover:shadow-md hover:scale-[1.03] focus-visible:ring-2 focus-visible:ring-solidario-lightBlue active:scale-95">
                 {secondaryButton.text}
