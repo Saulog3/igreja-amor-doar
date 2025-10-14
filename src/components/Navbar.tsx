@@ -110,9 +110,11 @@ const Navbar = () => {
                 <span>Minha conta</span>
               </Link>
               
-              <Link to="/dashboard" className="text-gray-700 hover:text-solidario-blue">
-                Dashboard
-              </Link>
+              {false && (
+                <Link to="/dashboard" className="text-gray-700 hover:text-solidario-blue">
+                  Dashboard
+                </Link>
+              )}
               
               {isAdmin() && (
                 <Link to="/admin" className="text-gray-700 hover:text-solidario-blue">
@@ -196,13 +198,15 @@ const Navbar = () => {
                         <p className="text-sm text-gray-500">Ver perfil</p>
                       </div>
                     </Link>
-                    <Link 
-                      to="/dashboard" 
-                      className="flex items-center gap-2" 
-                      onClick={() => setIsMenuOpen(false)}
-                    >
-                      Dashboard
-                    </Link>
+                    {false && (
+                      <Link 
+                        to="/dashboard" 
+                        className="flex items-center gap-2" 
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                    )}
                     {isAdmin() && (
                       <Link 
                         to="/admin" 
