@@ -16,6 +16,7 @@ import DashboardFilters, { FilterValues } from "@/components/dashboard/Dashboard
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
 import { useDonations } from "@/hooks/useDonations";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
 const Dashboard = () => {
   const { user, profile } = useAuth();
@@ -30,9 +31,10 @@ const Dashboard = () => {
     minAmount: undefined,
     maxAmount: undefined,
   });
+  const [institutionId, setInstitutionId] = useState<string | undefined>(undefined);
 
   // Usar o hook de doações
-  const { donations, loading: donationsLoading, refetch } = useDonations();
+  const { donations, loading: donationsLoading, refetch } = useDonations(institutionId);
 
   // Redirecionar se não estiver logado
   useEffect(() => {
@@ -40,6 +42,37 @@ const Dashboard = () => {
       navigate("/auth");
     }
   }, [user, navigate]);
+
+  // Se o usuário for instituição, buscar seu institution_id
+  useEffect(() => {
+    const fetchInstitutionForProfile = async () => {
+      try {
+        if (profile?.is_institution && profile?.id) {
+          const { data, error } = await supabase
+            .from("institutions")
+            .select("id")
+            .eq("profile_id", profile.id)
+            .single();
+
+          if (error) {
+            throw error;
+          }
+
+          setInstitutionId(data?.id);
+        } else {
+          setInstitutionId(undefined);
+        }
+      } catch (error: any) {
+        toast({
+          title: "Erro ao identificar instituição",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    };
+
+    fetchInstitutionForProfile();
+  }, [profile, toast]);
   
   // Função para atualizar os dados
   const handleRefresh = async () => {
