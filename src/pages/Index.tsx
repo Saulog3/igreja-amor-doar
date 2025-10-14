@@ -421,7 +421,7 @@ const Index = () => {
                   "Consulte valores doados, datas e benefícios de cada transação.",
                 ]}
                 buttonText="Criar conta doadora"
-                linkTo="/auth"
+                linkTo="/auth?tab=register"
               />
 
               <AccountTypeCard

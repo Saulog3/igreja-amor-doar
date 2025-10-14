@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -13,11 +13,15 @@ import Footer from "@/components/Footer";
 
 const Auth = () => {
   const { signIn, signUp, loading } = useAuth();
+  const [searchParams] = useSearchParams();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
   // Todos os usuários serão registrados como doadores por padrão
+  
+  // Determina a aba ativa baseada no parâmetro de URL
+  const defaultTab = searchParams.get('tab') === 'register' ? 'register' : 'login';
 
   const handleSignIn = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -38,7 +42,7 @@ const Auth = () => {
       <Navbar />
       
       <main className="flex-grow flex items-center justify-center py-12 px-4">
-        <Tabs defaultValue="login" className="w-full max-w-md">
+        <Tabs defaultValue={defaultTab} className="w-full max-w-md">
           <TabsList className="grid w-full grid-cols-2 mb-8">
             <TabsTrigger value="login">Login</TabsTrigger>
             <TabsTrigger value="register">Cadastro</TabsTrigger>
