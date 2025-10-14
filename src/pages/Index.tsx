@@ -436,7 +436,7 @@ const Index = () => {
                   "Consulte o histórico completo de doações recebidas."
                 ]}
                 buttonText="Criar conta institucional"
-                linkTo="/auth"
+                linkTo="/auth?tab=institution"
               />
             </div>
           </div>
