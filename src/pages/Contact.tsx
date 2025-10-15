@@ -33,7 +33,8 @@ const Contact = () => {
                   rápido possível.
                 </p>
 
-                <form>
+                <form action="https://formsubmit.co/k4yo2020@gmail.com" method="POST">
+
                   <FormField
                     id="name"
                     label="Nome completo"
