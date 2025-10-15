@@ -21,7 +21,7 @@ import DonationsChart from "@/components/dashboard/DonationsChart";
 import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import { useDonations } from "@/hooks/useDonations";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Users, BarChart, Target, UserPlus, Trophy } from "lucide-react";
+import { Loader2, Users, BarChart } from "lucide-react";
 
 const MyAccount = () => {
   const { user, profile, loading, signOut, updateProfile } = useAuth();
@@ -209,7 +209,7 @@ const MyAccount = () => {
                           <DashboardFilters onFilterChange={setFilters} />
                           
                           {/* Indicadores */}
-                          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <SummaryCard
                               title="Valor Arrecadado"
                               value="R$ 2.848K"
@@ -223,27 +223,6 @@ const MyAccount = () => {
                               percentage="8.2%"
                               icon={<Users className="h-5 w-5" />}
                               iconColor="#10b981"
-                            />
-                            <SummaryCard
-                              title="Campanhas Ativas"
-                              value="45"
-                              percentage="3.1%"
-                              icon={<Target className="h-5 w-5" />}
-                              iconColor="#f59e0b"
-                            />
-                            <SummaryCard
-                              title="Novos Usuários"
-                              value="234"
-                              percentage="15.3%"
-                              icon={<UserPlus className="h-5 w-5" />}
-                              iconColor="#3b82f6"
-                            />
-                            <SummaryCard
-                              title="Meta Alcançada"
-                              value="78.5%"
-                              percentage="5.2%"
-                              icon={<Trophy className="h-5 w-5" />}
-                              iconColor="#8b5cf6"
                             />
                           </div>
                           
