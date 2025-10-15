@@ -33,49 +33,84 @@ const Contact = () => {
                   rápido possível.
                 </p>
 
-                <form action="https://formsubmit.co/k4yo2020@gmail.com" method="POST">
-
-                  <FormField
-                    id="name"
-                    label="Nome completo"
-                    placeholder="Digite seu nome completo"
-                    required
-                  />
-
-                  <FormField
-                    id="email"
-                    label="E-mail"
-                    type="email"
-                    placeholder="Digite seu e-mail"
-                    required
-                  />
-
-                  <FormField
-                    id="subject"
-                    label="Assunto"
-                    placeholder="Digite o assunto"
-                    required
-                  />
-
-                  <div className="mb-6">
-                    <label htmlFor="message" className="block mb-2">
-                      Mensagem
+                <form
+                  action="https://formsubmit.co/k4yo2020@gmail.com"
+                  method="POST"
+                  className="space-y-6"
+                  >
+                  {/* Campo: Nome */}
+                  <div>
+                    <label htmlFor="name" className="block mb-2 font-medium">
+                      Nome completo
                     </label>
-                    <Textarea
-                      id="message"
-                      placeholder="Digite sua mensagem"
-                      rows={6}
-                      className="w-full rounded-md"
+                    <input
+                      id="name"
+                      name="name"
+                      type="text"
+                      placeholder="Digite seu nome completo"
                       required
+                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-solidario-blue"
                     />
                   </div>
 
-                  <Button
+                  {/* Campo: E-mail */}
+                  <div>
+                    <label htmlFor="email" className="block mb-2 font-medium">
+                      E-mail
+                    </label>
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      placeholder="Digite seu e-mail"
+                      required
+                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-solidario-blue"
+                    />
+                  </div>
+
+                  {/* Campo: Assunto */}
+                  <div>
+                    <label htmlFor="subject" className="block mb-2 font-medium">
+                      Assunto
+                    </label>
+                    <input
+                      id="subject"
+                      name="subject"
+                      type="text"
+                      placeholder="Digite o assunto"
+                      required
+                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-solidario-blue"
+                    />
+                  </div>
+
+                  {/* Campo: Mensagem */}
+                  <div>
+                    <label htmlFor="message" className="block mb-2 font-medium">
+                      Mensagem
+                    </label>
+                    <textarea
+                      id="message"
+                      name="message"
+                      rows={6}
+                      placeholder="Digite sua mensagem"
+                      required
+                      className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-solidario-blue"
+                    />
+                  </div>
+
+                  {/* Campos ocultos do FormSubmit */}
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_subject" value="Nova mensagem do site Solidário+" />
+                  <input type="hidden" name="_next" value="https://solidariomais.com.br/obrigado" />
+
+                  {/* Botão */}
+                  <button
                     type="submit"
-                    className="bg-solidario-blue hover:bg-solidario-darkBlue text-white px-8 py-3"
+                    className="bg-solidario-blue hover:bg-solidario-darkBlue text-white font-medium px-8 py-3 rounded-md transition-colors"
                   >
                     Enviar mensagem
-                  </Button>
+                  </button>
                 </form>
               </div>
 
