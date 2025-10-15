@@ -80,6 +80,55 @@ const MyAccount = () => {
     return true;
   });
 
+  // Calcular métricas de crescimento comparando com o mês anterior
+  const calculateGrowthPercentage = () => {
+    const now = new Date();
+    const currentMonth = now.getMonth();
+    const currentYear = now.getFullYear();
+    
+    // Doações do mês atual
+    const currentMonthDonations = donations.filter(donation => {
+      const donationDate = new Date(donation.created_at);
+      return donationDate.getMonth() === currentMonth && 
+             donationDate.getFullYear() === currentYear &&
+             donation.payment_status === 'approved';
+    });
+    
+    // Doações do mês anterior
+    const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
+    const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
+    
+    const lastMonthDonations = donations.filter(donation => {
+      const donationDate = new Date(donation.created_at);
+      return donationDate.getMonth() === lastMonth && 
+             donationDate.getFullYear() === lastMonthYear &&
+             donation.payment_status === 'approved';
+    });
+    
+    // Calcular valores
+    const currentMonthAmount = currentMonthDonations.reduce((sum, d) => sum + Number(d.amount), 0);
+    const lastMonthAmount = lastMonthDonations.reduce((sum, d) => sum + Number(d.amount), 0);
+    
+    const currentMonthDonors = new Set(currentMonthDonations.map(d => d.donor_email).filter(Boolean)).size;
+    const lastMonthDonors = new Set(lastMonthDonations.map(d => d.donor_email).filter(Boolean)).size;
+    
+    // Calcular porcentagens
+    const amountGrowth = lastMonthAmount > 0 ? 
+      ((currentMonthAmount - lastMonthAmount) / lastMonthAmount * 100) : 
+      (currentMonthAmount > 0 ? 100 : 0);
+      
+    const donorsGrowth = lastMonthDonors > 0 ? 
+      ((currentMonthDonors - lastMonthDonors) / lastMonthDonors * 100) : 
+      (currentMonthDonors > 0 ? 100 : 0);
+    
+    return {
+      amountGrowth: amountGrowth.toFixed(1),
+      donorsGrowth: donorsGrowth.toFixed(1)
+    };
+  };
+
+  const growthMetrics = calculateGrowthPercentage();
+
   useEffect(() => {
     if (!loading && !user) {
       navigate("/auth");
@@ -212,15 +261,15 @@ const MyAccount = () => {
                           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <SummaryCard
                               title="Valor Arrecadado"
-                              value="R$ 2.848K"
-                              percentage="12.5%"
+                              value={`R$ ${metrics.totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
+                              percentage={`${growthMetrics.amountGrowth}%`}
                               icon={<BarChart className="h-5 w-5" />}
                               iconColor="#4f46e5"
                             />
                             <SummaryCard
                               title="Total de Doadores"
-                              value="12.849"
-                              percentage="8.2%"
+                              value={metrics.uniqueDonors.toString()}
+                              percentage={`${growthMetrics.donorsGrowth}%`}
                               icon={<Users className="h-5 w-5" />}
                               iconColor="#10b981"
                             />
