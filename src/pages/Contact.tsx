@@ -136,7 +136,7 @@ const Contact = () => {
                   {/* Mensagem de status */}
                   {status === "success" && (
                     <p className="text-green-600 font-medium mt-3">
-                      ✅ Sua mensagem foi enviada com sucesso para a equipe do Solidário+!
+                      Sua mensagem foi enviada com sucesso para a equipe do Solidário+!
                     </p>
                   )}
                   {status === "error" && (
