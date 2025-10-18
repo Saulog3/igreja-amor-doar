@@ -381,7 +381,7 @@ const Index = () => {
               },
               {
                 title: "Como tenho acesso",
-                description: "Com a análise aprovada, acesse com seu login e senha cadastrados."
+                description: "Se aprovada, acesse com seu login e senha cadastrados."
               },
               {
                 title: "Crie doações",
@@ -393,7 +393,7 @@ const Index = () => {
               },
               {
                 title: "Gerencie recursos",
-                description: "Use nosso Dashboard para acompanhar entradas e administrar recursos."
+                description: "Use nosso painel para acompanhar entradas e administrar recursos."
               },
               {
                 title: "Compartilhe os resultados",
@@ -450,7 +450,7 @@ const Index = () => {
             
             <div className="space-y-6">
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Como a instituição religiosa acessa a plataforma após a aprovação da Solidário+?</h3>
+                <h3 className="text-xl font-bold mb-2">Como a instituição religiosa acessa a plataforma após a aprovação da Solidário+</h3>
                 <p className="text-gray-600">
                   A aprovação ocorre em até 3 dias. Após isso, a instituição receberá um e-mail informando que o acesso foi liberado.
                   Para entrar, basta usar o login e a senha cadastrados no formulário.
@@ -458,14 +458,14 @@ const Index = () => {
               </div>     
 
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Minha instituição religiosa precisa ter CNPJ?</h3>
+                <h3 className="text-xl font-bold mb-2">Minha instituição religiosa precisa ter CNPJ</h3>
                 <p className="text-gray-600">
                   Sim, para receber doações através da plataforma, sua instituição precisa ter um CNPJ válido.
                 </p>
               </div>
 
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Como funciona o Dashboard para a instituição religiosa?</h3>
+                <h3 className="text-xl font-bold mb-2">Como funciona o Dashboard para a instituição religiosa</h3>
                 <p className="text-gray-600">
                   O Dashboard oferece uma análise completa das doações, incluindo dados por dia, semana e mês,
                   valor total recebido, quantidade de doações e um gráfico com a evolução dos resultados.
