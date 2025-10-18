@@ -381,7 +381,7 @@ const Index = () => {
               },
               {
                 title: "Como tenho acesso",
-                description: "Após a aprovação, o Solidário+ enviará o login e senha de acesso."
+                description: "Com a análise aprovada, acesse com seu login e senha cadastrados."
               },
               {
                 title: "Crie doações",
@@ -393,7 +393,7 @@ const Index = () => {
               },
               {
                 title: "Gerencie recursos",
-                description: "Use nosso painel para acompanhar entradas e administrar recursos."
+                description: "Use nosso Dashboard para acompanhar entradas e administrar recursos."
               },
               {
                 title: "Compartilhe os resultados",
@@ -450,45 +450,48 @@ const Index = () => {
             
             <div className="space-y-6">
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Quais são as taxas cobradas?</h3>
+                <h3 className="text-xl font-bold mb-2">Como a instituição religiosa acessa a plataforma após a aprovação da Solidário+?</h3>
                 <p className="text-gray-600">
-                  A Solidario+ cobra uma pequena taxa administrativa de 5% sobre cada doação para manter a plataforma funcionando. Taxas de processamento de pagamento são cobradas separadamente pelos nossos parceiros de pagamento.
+                  A aprovação ocorre em até 3 dias. Após isso, a instituição receberá um e-mail informando que o acesso foi liberado.
+                  Para entrar, basta usar o login e a senha cadastrados no formulário.
                 </p>
-              </div>
-              
-              <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Como posso fazer uma doação recorrente?</h3>
-                <p className="text-gray-600">
-                  Ao fazer sua doação, você pode marcar a opção "Doação mensal" e escolher o período desejado. Você pode cancelar ou modificar suas doações recorrentes a qualquer momento em seu painel.
-                </p>
-              </div>
-              
+              </div>     
+
               <div className="border-b border-gray-200 pb-6">
                 <h3 className="text-xl font-bold mb-2">Minha instituição religiosa precisa ter CNPJ?</h3>
                 <p className="text-gray-600">
-                  Sim, para receber doações através da plataforma, sua instituição precisa ter um CNPJ válido e documentação que comprove sua legitimidade.
+                  Sim, para receber doações através da plataforma, sua instituição precisa ter um CNPJ válido.
                 </p>
               </div>
-              
+
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Como são feitos os repasses para as instituições?</h3>
+                <h3 className="text-xl font-bold mb-2">Como funciona o Dashboard para a instituição religiosa?</h3>
                 <p className="text-gray-600">
-                  Os repasses são feitos automaticamente a cada 15 dias para a conta bancária cadastrada pela instituição, descontadas as taxas aplicáveis.
+                  O Dashboard oferece uma análise completa das doações, incluindo dados por dia, semana e mês,
+                  valor total recebido, quantidade de doações e um gráfico com a evolução dos resultados.
+                </p>
+              </div>
+
+              <div className="border-b border-gray-200 pb-6">
+                <h3 className="text-xl font-bold mb-2">Qual o objetivo da plataforma da Solidário+</h3>
+                <p className="text-gray-600">
+                  Facilitar e tornar mais seguro o ato de doar, conectando pessoas a instituições verificadas
+                  e causas reais, com transparência e impacto social.
                 </p>
               </div>
               
-              <div className="border-b border-gray-200 pb-6">
+              {/* <div className="border-b border-gray-200 pb-6">
                 <h3 className="text-xl font-bold mb-2">Posso fazer doações anônimas?</h3>
                 <p className="text-gray-600">
                   Sim, você pode escolher a opção de doação anônima ao fazer sua contribuição. Seus dados pessoais não serão compartilhados com a instituição beneficiada.
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
         </section>
                 <section className="py-16 px-6 bg-white overflow-hidden" id="depoimentos">
           <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl font-bold mb-2 text-center">Depoimentos</h2>
+            <h2 className="text-3xl font-bold mb-2 text-center">Comentários da Galera</h2>
             <p className="text-gray-600 mb-12 text-center">
               O que nossos usuários dizem sobre a plataforma
             </p>
