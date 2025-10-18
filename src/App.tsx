@@ -1,4 +1,3 @@
-
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -20,6 +19,8 @@ import DonateProcess from "./pages/DonateProcess";
 import Admin from "./pages/Admin";
 import PaymentSuccess from "./pages/PaymentSuccess";
 import PaymentError from "./pages/PaymentError";
+import ForgotPassword from "./pages/ForgotPassword";
+import AtualizarSenha from "@/pages/AtualizarSenha";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +46,8 @@ const App = () => (
             <Route path="/admin" element={<Admin />} />
             <Route path="/payment-sucesso" element={<PaymentSuccess />} />
             <Route path="/payment-errado" element={<PaymentError />} />
+            <Route path="/esqueci-senha" element={<ForgotPassword />} />
+            <Route path="/atualizar-senha" element={<AtualizarSenha />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

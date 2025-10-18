@@ -24,6 +24,8 @@ type AuthContextType = {
   signIn: (email: string, password: string) => Promise<void>;
   signUp: (email: string, password: string, data: any) => Promise<void>;
   signOut: () => Promise<void>;
+  resetPassword: (email: string) => Promise<void>;
+  updatePassword: (password: string) => Promise<void>;
   updateProfile: (data: Partial<ProfileType>) => Promise<void>;
   isAdmin: () => boolean;
 };
@@ -195,6 +197,45 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     return user?.email === "saulorg3@gmail.com";
   };
 
+  const resetPassword = async (email: string) => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/atualizar-senha`,
+      });
+
+      if (error) {
+        toast.error("Erro ao solicitar recuperação de senha: " + error.message);
+      } else {
+        toast.success("Email de recuperação enviado com sucesso! Verifique sua caixa de entrada.");
+      }
+    } catch (error: any) {
+      toast.error("Erro ao solicitar recuperação de senha: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const updatePassword = async (password: string) => {
+    try {
+      setLoading(true);
+      const { error } = await supabase.auth.updateUser({
+        password,
+      });
+
+      if (error) {
+        toast.error("Erro ao atualizar senha: " + error.message);
+      } else {
+        toast.success("Senha atualizada com sucesso!");
+        navigate("/auth");
+      }
+    } catch (error: any) {
+      toast.error("Erro ao atualizar senha: " + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const value = {
     session,
     user,
@@ -203,6 +244,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     signIn,
     signUp,
     signOut,
+    resetPassword,
+    updatePassword,
     updateProfile,
     isAdmin,
   };

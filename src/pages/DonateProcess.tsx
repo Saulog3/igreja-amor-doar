@@ -112,7 +112,7 @@ const DonateProcess = () => {
         }),
       });
 
-      console.log('Resposta do Mercado Pago:', response);
+      console.log('Resposta Stripe:', response);
 
       if (!response.ok) {
         await updatePayment(paymentID, 'cancelled');
