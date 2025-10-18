@@ -14,6 +14,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel";
+import TestimonialWidget from "@/components/TestimonialWidget";
 import {
   Dialog,
   DialogContent,
@@ -442,96 +443,6 @@ const Index = () => {
           </div>
         </div>
 
-        <section className="py-16 px-6 bg-white overflow-hidden" id="depoimentos">
-          <div className="container mx-auto max-w-6xl">
-            <h2 className="text-3xl font-bold mb-2 text-center">Depoimentos</h2>
-            <p className="text-gray-600 mb-12 text-center">
-              O que nossos usuários dizem sobre a plataforma
-            </p>
-
-            <Carousel
-              opts={{
-                align: "start",
-              }}
-              className="w-full"
-            >
-              <CarouselContent>
-                {[
-                  {
-                    name: "Maria Santos",
-                    role: "Doadora",
-                    institution: "Igreja Nossa Senhora da Paz",
-                    testimonial: "A plataforma Solidario+ mudou a forma como fazemos doações. É fácil, seguro e transparente. Consigo acompanhar todas as minhas contribuições e ver o impacto que estou causando.",
-                    initial: "M"
-                  },
-                  {
-                    name: "João Silva",
-                    role: "Doador",
-                    institution: "Igreja Batista Esperança",
-                    testimonial: "Excelente plataforma! Finalmente posso doar com segurança e transparência. O sistema de acompanhamento das doações é fantástico e me dá confiança total.",
-                    initial: "J"
-                  },
-                  {
-                    name: "Ana Costa",
-                    role: "Doadora",
-                    institution: "Igreja Metodista Central",
-                    testimonial: "Uso a plataforma há 6 meses e estou muito satisfeita. É muito prático poder fazer doações online e receber relatórios detalhados de como meu dinheiro está sendo usado.",
-                    initial: "A"
-                  },
-                  {
-                    name: "Carlos Oliveira",
-                    role: "Pastor",
-                    institution: "Igreja Assembleia de Deus",
-                    testimonial: "Como pastor, posso dizer que esta plataforma revolucionou nossa gestão de doações. Temos total transparência e nossos fiéis confiam mais no processo.",
-                    initial: "C"
-                  },
-                  {
-                    name: "Fernanda Lima",
-                    role: "Doadora",
-                    institution: "Igreja Católica São José",
-                    testimonial: "Simplesmente perfeita! A interface é intuitiva e o processo de doação é muito seguro. Recomendo para todos que querem contribuir de forma responsável.",
-                    initial: "F"
-                  },
-                  {
-                    name: "Roberto Mendes",
-                    role: "Tesoureiro",
-                    institution: "Igreja Presbiteriana do Brasil",
-                    testimonial: "A transparência oferecida pela plataforma é impressionante. Como tesoureiro da igreja, posso gerenciar todas as doações de forma eficiente e clara.",
-                    initial: "R"
-                  }
-                ].map((testimonial, index) => (
-                  <CarouselItem
-                    key={index}
-                    className="md:basis-1/2 lg:basis-1/3"
-                  >
-                    <div className="p-1">
-                      <div className="bg-gray-50 rounded-lg p-6 shadow-sm h-full">
-                        <div className="flex items-center mb-4">
-                          <div className="w-12 h-12 bg-solidario-blue rounded-full flex items-center justify-center text-white font-bold text-lg">
-                            {testimonial.initial}
-                          </div>
-                          <div className="ml-4">
-                            <h4 className="font-bold">{testimonial.name}</h4>
-                            <p className="text-sm text-gray-600">
-                              {testimonial.role} - {testimonial.institution}
-                            </p>
-                          </div>
-                        </div>
-                        <p className="text-gray-700">
-                          "{testimonial.testimonial}"
-                        </p>
-                      </div>
-                    </div>
-                  </CarouselItem>
-                ))}
-              </CarouselContent>
-              <div className="flex justify-center mt-8 gap-2">
-                <CarouselPrevious className="relative inset-auto mx-2" />
-                <CarouselNext className="relative inset-auto mx-2" />
-              </div>
-            </Carousel>
-          </div>
-        </section>
 
         <section className="py-16 px-6 bg-white">
           <div className="container mx-auto max-w-4xl">
@@ -572,6 +483,19 @@ const Index = () => {
                   Sim, você pode escolher a opção de doação anônima ao fazer sua contribuição. Seus dados pessoais não serão compartilhados com a instituição beneficiada.
                 </p>
               </div>
+            </div>
+          </div>
+        </section>
+                <section className="py-16 px-6 bg-white overflow-hidden" id="depoimentos">
+          <div className="container mx-auto max-w-6xl">
+            <h2 className="text-3xl font-bold mb-2 text-center">Depoimentos</h2>
+            <p className="text-gray-600 mb-12 text-center">
+              O que nossos usuários dizem sobre a plataforma
+            </p>
+
+            {/* Elfsight Testimonials Widget */}
+            <div className="w-full">
+              <TestimonialWidget />
             </div>
           </div>
         </section>
