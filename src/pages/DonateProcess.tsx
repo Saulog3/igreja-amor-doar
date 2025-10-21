@@ -79,7 +79,7 @@ const DonateProcess = () => {
           amount: donationAmount,
           donor_name: donorName || null,
           donor_email: donorEmail || null,
-          payment_method: 'mercado_pago',
+          payment_method: 'stripe',
           payment_status: 'pending',
           payment_id: paymentID
         })
