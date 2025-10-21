@@ -1,4 +1,3 @@
-
 import { useEffect, useMemo } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Navbar from "@/components/Navbar";
@@ -6,6 +5,7 @@ import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Check } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 const PaymentSuccess = () => {
   const navigate = useNavigate();
@@ -20,11 +20,32 @@ const PaymentSuccess = () => {
     }
     return map;
   }, [searchParams]);
-  
-  // Opcional: registrar o sucesso do pagamento
-  useEffect(() => {
-    console.log("Pagamento bem-sucedido");
-  }, []);
+
+  // Atualizar o status da doação quando o pagamento for bem-sucedido
+useEffect(() => {
+    const updateDonationStatus = async () => {
+      if (!donationParams.donation_id) {
+        console.error("ID da doação não encontrado");
+        return;
+      }
+
+      const { error } = await supabase
+        .from('donations')
+        .update({ 
+          payment_status: 'approved',
+          updated_at: new Date().toISOString()
+        })
+        .eq('id', donationParams.donation_id);
+
+      if (error) {
+        console.error('Erro ao atualizar status da doação:', error);
+      } else {
+        console.log("Status da doação atualizado com sucesso");
+      }
+    };
+
+    updateDonationStatus();
+  }, [donationParams]);
 
   return (
     <div className="min-h-screen flex flex-col">
