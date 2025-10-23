@@ -124,21 +124,36 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
           data: {
             full_name: data.full_name,
             username: data.username || email.split("@")[0],
-            is_institution: false, // Todos os usuários serão registrados como doadores por padrão
+            is_institution: data.is_institution || false,
+            // Dados específicos da instituição (se aplicável)
+            ...(data.is_institution && {
+              institution_description: data.institution_description,
+              institution_address: data.institution_address,
+              institution_phone: data.institution_phone,
+              institution_cnpj: data.institution_cnpj,
+            }),
           },
         },
       });
 
       if (error) {
         toast.error("Erro ao criar conta: " + error.message);
-        return;
+        throw error; // Lança o erro para ser capturado no componente
       }
 
-      // Instituições agora são gerenciadas pelo backend
-      toast.success("Conta criada com sucesso! Verifique seu email para confirmar o cadastro.");
-      navigate("/auth");
+      if (data.is_institution) {
+        toast.success("Solicitação de conta institucional enviada! Verifique seu email para confirmar o cadastro.");
+      } else {
+        toast.success("Conta criada com sucesso! Verifique seu email para confirmar o cadastro.");
+      }
+      
+      // Não navegar automaticamente para permitir que a mensagem seja exibida
+      if (!data.is_institution) {
+        navigate("/auth");
+      }
     } catch (error: any) {
       toast.error("Erro ao criar conta: " + error.message);
+      throw error; // Re-lança o erro para ser capturado no componente
     } finally {
       setLoading(false);
     }
