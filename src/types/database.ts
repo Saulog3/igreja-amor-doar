@@ -17,6 +17,7 @@ export interface Institution {
   state?: string;
   postal_code?: string;
   website?: string;
+  cnpj?: string;
 }
 
 // Tipo para doações

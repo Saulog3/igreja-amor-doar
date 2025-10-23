@@ -23,6 +23,7 @@ const Auth = () => {
   const [institutionDescription, setInstitutionDescription] = useState("");
   const [institutionAddress, setInstitutionAddress] = useState("");
   const [institutionPhone, setInstitutionPhone] = useState("");
+  const [institutionCnpj, setInstitutionCnpj] = useState("");
   
   // Todos os usuários serão registrados como doadores por padrão
   
@@ -54,6 +55,7 @@ const Auth = () => {
       institution_description: institutionDescription,
       institution_address: institutionAddress,
       institution_phone: institutionPhone,
+      institution_cnpj: institutionCnpj,
     });
   };
 
@@ -215,6 +217,17 @@ const Auth = () => {
                       placeholder="Nome da sua instituição"
                       value={institutionName}
                       onChange={(e) => setInstitutionName(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="institutionCnpj">CNPJ</Label>
+                    <Input
+                      id="institutionCnpj"
+                      type="text"
+                      placeholder="00.000.000/0000-00"
+                      value={institutionCnpj}
+                      onChange={(e) => setInstitutionCnpj(e.target.value)}
                       required
                     />
                   </div>
