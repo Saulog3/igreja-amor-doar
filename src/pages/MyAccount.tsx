@@ -10,18 +10,16 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
-import SummaryCard from "@/components/dashboard/SummaryCard";
+import DashboardCard from "@/components/dashboard/DashboardCard";
 import DonationsTable from "@/components/dashboard/DonationsTable";
+import DonationsChart from "@/components/dashboard/DonationsChart";
 import DonationsPieChart from "@/components/dashboard/DonationsPieChart";
 import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
 import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
-import WeeklyRevenueChart from "@/components/WeeklyRevenueChart";
-import DonationsChart from "@/components/dashboard/DonationsChart";
 import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import { useDonations } from "@/hooks/useDonations";
 import { supabase } from "@/integrations/supabase/client";
-import { Loader2, Users, BarChart } from "lucide-react";
+import { Loader2, DollarSign, Users, TrendingUp, Clock } from "lucide-react";
 
 const MyAccount = () => {
   const { user, profile, loading, signOut, updateProfile } = useAuth();
@@ -79,55 +77,6 @@ const MyAccount = () => {
     
     return true;
   });
-
-  // Calcular métricas de crescimento comparando com o mês anterior
-  const calculateGrowthPercentage = () => {
-    const now = new Date();
-    const currentMonth = now.getMonth();
-    const currentYear = now.getFullYear();
-    
-    // Doações do mês atual
-    const currentMonthDonations = donations.filter(donation => {
-      const donationDate = new Date(donation.created_at);
-      return donationDate.getMonth() === currentMonth && 
-             donationDate.getFullYear() === currentYear &&
-             donation.payment_status === 'approved';
-    });
-    
-    // Doações do mês anterior
-    const lastMonth = currentMonth === 0 ? 11 : currentMonth - 1;
-    const lastMonthYear = currentMonth === 0 ? currentYear - 1 : currentYear;
-    
-    const lastMonthDonations = donations.filter(donation => {
-      const donationDate = new Date(donation.created_at);
-      return donationDate.getMonth() === lastMonth && 
-             donationDate.getFullYear() === lastMonthYear &&
-             donation.payment_status === 'approved';
-    });
-    
-    // Calcular valores
-    const currentMonthAmount = currentMonthDonations.reduce((sum, d) => sum + Number(d.amount), 0);
-    const lastMonthAmount = lastMonthDonations.reduce((sum, d) => sum + Number(d.amount), 0);
-    
-    const currentMonthDonors = new Set(currentMonthDonations.map(d => d.donor_email).filter(Boolean)).size;
-    const lastMonthDonors = new Set(lastMonthDonations.map(d => d.donor_email).filter(Boolean)).size;
-    
-    // Calcular porcentagens
-    const amountGrowth = lastMonthAmount > 0 ? 
-      ((currentMonthAmount - lastMonthAmount) / lastMonthAmount * 100) : 
-      (currentMonthAmount > 0 ? 100 : 0);
-      
-    const donorsGrowth = lastMonthDonors > 0 ? 
-      ((currentMonthDonors - lastMonthDonors) / lastMonthDonors * 100) : 
-      (currentMonthDonors > 0 ? 100 : 0);
-    
-    return {
-      amountGrowth: amountGrowth.toFixed(1),
-      donorsGrowth: donorsGrowth.toFixed(1)
-    };
-  };
-
-  const growthMetrics = calculateGrowthPercentage();
 
   useEffect(() => {
     if (!loading && !user) {
@@ -257,36 +206,41 @@ const MyAccount = () => {
                           {/* Filtros */}
                           <DashboardFilters onFilterChange={setFilters} />
                           
-                          {/* Indicadores */}
-                          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <SummaryCard
-                              title="Valor Arrecadado"
-                              value={`R$ ${metrics.totalAmount.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
-                              percentage={`${growthMetrics.amountGrowth}%`}
-                              icon={<BarChart className="h-5 w-5" />}
-                              iconColor="#4f46e5"
+                          {/* Métricas */}
+                          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                            <DashboardCard
+                              title="Total Arrecadado"
+                              value={`R$ ${metrics.totalAmount.toFixed(2)}`}
+                              icon={DollarSign}
+                              description="Doações aprovadas"
                             />
-                            <SummaryCard
-                              title="Total de Doadores"
-                              value={metrics.uniqueDonors.toString()}
-                              percentage={`${growthMetrics.donorsGrowth}%`}
-                              icon={<Users className="h-5 w-5" />}
-                              iconColor="#10b981"
+                            <DashboardCard
+                              title="Total de Doações"
+                              value={metrics.totalDonations}
+                              icon={TrendingUp}
+                              description="Doações concluídas"
+                            />
+                            <DashboardCard
+                              title="Doadores Únicos"
+                              value={metrics.uniqueDonors}
+                              icon={Users}
+                              description="Pessoas diferentes"
+                            />
+                            <DashboardCard
+                              title="Pendentes"
+                              value={`R$ ${metrics.pendingAmount.toFixed(2)}`}
+                              icon={Clock}
+                              description="Aguardando aprovação"
                             />
                           </div>
-                          
-
 
                           {/* Gráficos */}
                           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                             <DonationsChart donations={filteredDonations} />
-                            <DonationsLineChart donations={filteredDonations} />
+                            <DonationsPieChart donations={filteredDonations} />
                           </div>
                           
-                          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
-                            <DonationsPieChart donations={filteredDonations} />
-                            <WeeklyRevenueChart />
-                          </div>
+                          <DonationsLineChart donations={filteredDonations} />
 
                           {/* Tabela de doações detalhada */}
                           <DetailedDonationsTable donations={filteredDonations} />
