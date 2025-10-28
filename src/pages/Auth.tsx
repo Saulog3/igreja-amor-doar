@@ -207,100 +207,89 @@ const Auth = () => {
                   Registre sua instituição religiosa para receber doações.
                 </CardDescription>
               </CardHeader>
-
-              {/* Formulário via FormSubmit */}
-              <form 
-                action="https://formsubmit.co/solidariomais@gmail.com" 
-                method="POST"
-              >
+              <form onSubmit={handleInstitutionSignUp}>
                 <CardContent className="space-y-4">
-                  <input type="hidden" name="_captcha" value="false" /> {/* Desativa captcha */}
-                  <input type="hidden" name="_subject" value="Novo cadastro de instituição" />
-
                   <div className="space-y-2">
                     <Label htmlFor="institutionName">Nome da Instituição</Label>
                     <Input
                       id="institutionName"
                       type="text"
-                      name="institutionName"
                       placeholder="Nome da sua instituição"
                       value={institutionName}
                       onChange={(e) => setInstitutionName(e.target.value)}
                       required
                     />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="institutionCnpj">CNPJ</Label>
                     <Input
                       id="institutionCnpj"
                       type="text"
-                      name="institutionCnpj"
                       placeholder="00.000.000/0000-00"
                       value={institutionCnpj}
                       onChange={(e) => setInstitutionCnpj(e.target.value)}
                       required
                     />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="institutionDescription">Descrição</Label>
                     <Input
                       id="institutionDescription"
                       type="text"
-                      name="institutionDescription"
                       placeholder="Breve descrição da instituição"
                       value={institutionDescription}
                       onChange={(e) => setInstitutionDescription(e.target.value)}
                       required
                     />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="institutionAddress">Endereço</Label>
                     <Input
                       id="institutionAddress"
                       type="text"
-                      name="institutionAddress"
                       placeholder="Endereço completo"
                       value={institutionAddress}
                       onChange={(e) => setInstitutionAddress(e.target.value)}
                       required
                     />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="institutionPhone">Telefone</Label>
                     <Input
                       id="institutionPhone"
                       type="tel"
-                      name="institutionPhone"
                       placeholder="(11) 99999-9999"
                       value={institutionPhone}
                       onChange={(e) => setInstitutionPhone(e.target.value)}
                       required
                     />
                   </div>
-
+                  <div className="space-y-2">
+                    <Label htmlFor="username">Nome de Usuário</Label>
+                    <Input
+                      id="username"
+                      type="text"
+                      placeholder="Seu nome de usuário"
+                      value={username}
+                      onChange={(e) => setUsername(e.target.value)}
+                    />
+                  </div>
                   <div className="space-y-2">
                     <Label htmlFor="email">Email</Label>
                     <Input
                       id="email"
                       type="email"
-                      name="email"
                       placeholder="seu@email.com"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       required
                     />
                   </div>
-
                   <div className="space-y-2">
                     <Label htmlFor="password">Senha</Label>
                     <Input
                       id="password"
                       type="password"
-                      name="password"
                       placeholder="••••••••"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
@@ -308,13 +297,13 @@ const Auth = () => {
                     />
                   </div>
                 </CardContent>
-
                 <CardFooter>
                   <Button
                     type="submit"
                     className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
+                    disabled={loading}
                   >
-                    Criar conta institucional
+                    {loading ? "Criando conta..." : "Criar conta institucional"}
                   </Button>
                 </CardFooter>
               </form>
