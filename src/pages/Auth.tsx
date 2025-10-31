@@ -340,7 +340,7 @@ const Auth = () => {
                     <button
                       type="submit"
                       disabled={status === "sending"}
-                      className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
+                      className="bg-solidario-blue hover:bg-solidario-darkBlue text-white font-medium px-8 py-3 rounded-md transition-colors disabled:opacity-50"
                     >
                       {status === "sending" ? "Enviando..." : "Enviar cadastro institucional"}
                     </button>
