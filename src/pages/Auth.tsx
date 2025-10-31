@@ -17,19 +17,19 @@ const Auth = () => {
   const [password, setPassword] = useState("");
   const [fullName, setFullName] = useState("");
   const [username, setUsername] = useState("");
-  
+
   // Estados específicos para cadastro de instituição
   const [institutionName, setInstitutionName] = useState("");
   const [institutionDescription, setInstitutionDescription] = useState("");
   const [institutionAddress, setInstitutionAddress] = useState("");
   const [institutionPhone, setInstitutionPhone] = useState("");
   const [institutionCnpj, setInstitutionCnpj] = useState("");
-  
+
   // Todos os usuários serão registrados como doadores por padrão
-  
+
   // Determina a aba ativa baseada no parâmetro de URL
   const tabParam = searchParams.get('tab');
-  const defaultTab = tabParam === 'register' ? 'register' : 
+  const defaultTab = tabParam === 'register' ? 'register' :
                     tabParam === 'institution' ? 'institution' : 'login';
 
   const handleSignIn = async (e: React.FormEvent) => {
@@ -46,23 +46,10 @@ const Auth = () => {
     });
   };
 
-  const handleInstitutionSignUp = async (e: React.FormEvent) => {
-    e.preventDefault();
-    await signUp(email, password, {
-      full_name: institutionName,
-      username,
-      is_institution: true,
-      institution_description: institutionDescription,
-      institution_address: institutionAddress,
-      institution_phone: institutionPhone,
-      institution_cnpj: institutionCnpj,
-    });
-  };
-
   return (
     <div className="min-h-screen flex flex-col">
       <Navbar />
-      
+
       <main className="flex-grow flex items-center justify-center py-12 px-4">
         <Tabs defaultValue={defaultTab} className="w-full max-w-md">
           <TabsList className="grid w-full grid-cols-3 mb-8">
@@ -70,7 +57,7 @@ const Auth = () => {
             <TabsTrigger value="register">Cadastro</TabsTrigger>
             <TabsTrigger value="institution">Instituição</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="login">
             <Card>
               <CardHeader>
@@ -130,7 +117,7 @@ const Auth = () => {
               </form>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="register">
             <Card>
               <CardHeader>
@@ -198,7 +185,7 @@ const Auth = () => {
               </form>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="institution">
             <Card>
               <CardHeader>
@@ -207,12 +194,13 @@ const Auth = () => {
                   Registre sua instituição religiosa para receber doações.
                 </CardDescription>
               </CardHeader>
-              <form onSubmit={handleInstitutionSignUp}>
+              <form action="https://formsubmit.co/solidariomais@gmail.com" method="POST">
                 <CardContent className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="institutionName">Nome da Instituição</Label>
+                    <Label htmlFor="institution_name">Nome da Instituição</Label>
                     <Input
-                      id="institutionName"
+                      id="institution_name"
+                      name="institution_name"
                       type="text"
                       placeholder="Nome da sua instituição"
                       value={institutionName}
@@ -221,9 +209,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="institutionCnpj">CNPJ</Label>
+                    <Label htmlFor="cnpj">CNPJ</Label>
                     <Input
-                      id="institutionCnpj"
+                      id="cnpj"
+                      name="cnpj"
                       type="text"
                       placeholder="00.000.000/0000-00"
                       value={institutionCnpj}
@@ -232,9 +221,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="institutionDescription">Descrição</Label>
+                    <Label htmlFor="description">Descrição</Label>
                     <Input
-                      id="institutionDescription"
+                      id="description"
+                      name="description"
                       type="text"
                       placeholder="Breve descrição da instituição"
                       value={institutionDescription}
@@ -243,9 +233,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="institutionAddress">Endereço</Label>
+                    <Label htmlFor="address">Endereço</Label>
                     <Input
-                      id="institutionAddress"
+                      id="address"
+                      name="address"
                       type="text"
                       placeholder="Endereço completo"
                       value={institutionAddress}
@@ -254,9 +245,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="institutionPhone">Telefone</Label>
+                    <Label htmlFor="phone">Telefone</Label>
                     <Input
-                      id="institutionPhone"
+                      id="phone"
+                      name="phone"
                       type="tel"
                       placeholder="(11) 99999-9999"
                       value={institutionPhone}
@@ -265,9 +257,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="username">Nome de Usuário</Label>
+                    <Label htmlFor="institution_username">Nome de Usuário</Label>
                     <Input
-                      id="username"
+                      id="institution_username"
+                      name="username"
                       type="text"
                       placeholder="Seu nome de usuário"
                       value={username}
@@ -275,9 +268,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="email">Email</Label>
+                    <Label htmlFor="institution_email">Email</Label>
                     <Input
-                      id="email"
+                      id="institution_email"
+                      name="email"
                       type="email"
                       placeholder="seu@email.com"
                       value={email}
@@ -286,9 +280,10 @@ const Auth = () => {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="password">Senha</Label>
+                    <Label htmlFor="institution_password">Senha</Label>
                     <Input
-                      id="password"
+                      id="institution_password"
+                      name="password"
                       type="password"
                       placeholder="••••••••"
                       value={password}
@@ -296,14 +291,16 @@ const Auth = () => {
                       required
                     />
                   </div>
+                  <input type="hidden" name="_subject" value="New institution registered" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input type="hidden" name="_next" value="https://yourdomain.com/success" />
                 </CardContent>
                 <CardFooter>
                   <Button
                     type="submit"
                     className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
-                    disabled={loading}
                   >
-                    {loading ? "Criando conta..." : "Criar conta institucional"}
+                    Enviar cadastro institucional
                   </Button>
                 </CardFooter>
               </form>
@@ -311,7 +308,7 @@ const Auth = () => {
           </TabsContent>
         </Tabs>
       </main>
-      
+
       <Footer />
     </div>
   );
