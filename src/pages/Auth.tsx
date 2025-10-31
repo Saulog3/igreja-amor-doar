@@ -296,12 +296,25 @@ const Auth = () => {
                   <input type="hidden" name="_next" value="https://yourdomain.com/success" />
                 </CardContent>
                 <CardFooter>
-                  <Button
+                  <button
                     type="submit"
+                    disabled={status === "sending"}
                     className="w-full bg-solidario-blue hover:bg-solidario-darkBlue"
                   >
-                    Enviar cadastro institucional
-                  </Button>
+                    {status === "sending" ? "Enviando..." : "Enviar cadastro institucional"}
+                  </button>
+
+                  {/* Mensagem de status */}
+                  {status === "success" && (
+                    <p className="text-green-600 font-medium mt-3">
+                      Solicitação de cadastro foi enviada com sucesso para a equipe do Solidário+!
+                    </p>
+                  )}
+                  {status === "error" && (
+                    <p className="text-red-600 font-medium mt-3">
+                      ❌ Ocorreu um erro ao enviar sua mensagem. Tente novamente.
+                    </p>
+                  )}
                 </CardFooter>
               </form>
             </Card>
