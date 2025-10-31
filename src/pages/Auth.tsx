@@ -291,9 +291,9 @@ const Auth = () => {
                       required
                     />
                   </div>
-                  <input type="hidden" name="_subject" value="New institution registered" />
+                  <input type="hidden" name="_captcha" value="false" />
                   <input type="hidden" name="_template" value="table" />
-                  <input type="hidden" name="_next" value="https://yourdomain.com/success" />
+                  <input type="hidden" name="_subject" value="Nova mensagem do site Solidário+" />
                 </CardContent>
                 <CardFooter>
                   <button
