@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
@@ -29,6 +28,8 @@ const MyAccount = () => {
     full_name: "",
     website: "",
     avatar_url: "",
+    newEmail: "",
+    newPassword: "",
   });
   const [institutionId, setInstitutionId] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterValues>({
@@ -96,6 +97,8 @@ const MyAccount = () => {
         full_name: profile.full_name || "",
         website: profile.website || "",
         avatar_url: profile.avatar_url || "",
+        newEmail: "",
+        newPassword: "",
       });
 
       // Se for uma instituição, buscar o ID da instituição
@@ -124,6 +127,22 @@ const MyAccount = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     await updateProfile(form);
+  };
+
+  const handleUpdatePassword = async (newPassword: string) => {
+    if (!newPassword) return;
+    
+    // Lógica para atualizar a senha do usuário
+    const { error } = await supabase.auth.updateUser({ password: newPassword });
+    
+    if (error) {
+      console.error("Erro ao atualizar a senha:", error.message);
+      alert("Não foi possível atualizar a senha. Tente novamente mais tarde.");
+    } else {
+      // Senha atualizada com sucesso
+      setForm((prev) => ({ ...prev, newPassword: "" }));
+      alert("Senha atualizada com sucesso!");
+    }
   };
 
   if (loading) {
@@ -400,11 +419,16 @@ const MyAccount = () => {
                         <Input
                           id="password"
                           type="password"
-                          value="••••••••"
-                          disabled
+                          value={form.newPassword || ""}
+                          placeholder="Digite sua nova senha"
+                          onChange={(e) => setForm((prev) => ({ ...prev, newPassword: e.target.value }))}
+                          className="cursor-text"
                         />
-                        <Button variant="link" className="text-solidario-blue p-0 h-auto">
-                          Alterar senha
+                        <Button
+                          className="bg-solidario-blue hover:bg-solidario-darkBlue"
+                          onClick={() => handleUpdatePassword(form.newPassword)}
+                        >
+                          Alterar Senha
                         </Button>
                       </div>
                     </CardContent>
