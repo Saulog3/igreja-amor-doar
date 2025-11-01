@@ -285,9 +285,8 @@ const Index = () => {
                 <div className="mb-8">
                   <h4 className="text-xl font-bold mb-2">Conta Doadora</h4>
                   <p className="text-gray-600 mb-4">
-                    Contribua com instituições religiosas e causas solidárias já cadastradas na plataforma.
-                    Você pode realizar doações, acompanhar seus valores, datas e benefícios e visualizar 
-                    métricas detalhadas sobre suas contribuições, tudo reunido em um histórico completo 
+                    Contribua com instituições religiosas na plataforma. Você pode realizar doações,
+                    acompanhar seus valores, datas e visualizar suas contribuições, tudo reunido em um histórico completo 
                     para garantir total transparência.
                   </p>
                 </div>
@@ -297,7 +296,7 @@ const Index = () => {
                     Conta Institucional
                   </h4>
                   <p className="text-gray-600 mb-4">
-                    Receba e gerencie doações de forma eficiente com um painel exclusivo de análise financeira.
+                    Receba doações de forma eficiente com um painel exclusivo de análise financeira.
                     Acompanhe valores em tempo real, visualize métricas e mantenha o controle total dos recursos recebidos.
                   </p>
                 </div>
@@ -356,14 +355,6 @@ const Index = () => {
                 description: "Escolha o valor e a forma de pagamento de sua preferência."
               },
               {
-                title: "Acompanhe o impacto",
-                description: "Visualize todas as suas doações e o impacto que você está causando."
-              },
-              {
-                title: "Receba comprovantes",
-                description: "Obtenha comprovantes fiscais e recibos para suas contribuições."
-              },
-              {
                 title: "Compartilhe",
                 description: "Convide amigos e família para apoiar causas importantes."
               }
@@ -382,10 +373,6 @@ const Index = () => {
               {
                 title: "Como tenho acesso",
                 description: "Se aprovada, acesse com seu login e senha cadastrados."
-              },
-              {
-                title: "Crie doações",
-                description: "Lance doações específicas para projetos ou necessidades especiais."
               },
               {
                 title: "Receba doações",
@@ -416,10 +403,8 @@ const Index = () => {
                 features={[
                   "Faça doações diretamente para instituições de religiosas.",
                   "Explore e apoie arrecadações em andamento.",
-                  "Navegue pelas páginas de diferentes religiões e causas.",
-                  "Acompanhe suas contribuições em um histórico detalhado.",
-                  "Veja gráficos interativos com métricas sobre suas doações.",
-                  "Consulte valores doados, datas e benefícios de cada transação.",
+                  "Navegue pelas páginas de diferentes religiões.",
+                  
                 ]}
                 buttonText="Criar conta doadora"
                 linkTo="/auth?tab=register"
@@ -432,7 +417,7 @@ const Index = () => {
                   "Controle suas doações com um painel de análise financeira.",
                   "Crie e receba doações diretamente pela plataforma Solidário+.",
                   "Acompanhe em tempo real os valores arrecadados.",
-                  "Tenha acesso a um painel de análise financeira (dashboard) exclusivo.",
+                  "Tenha acesso a um painel de análise financeira (graficos) exclusivo.",
                   "Visualize métricas detalhadas sobre transações, valores e datas.",
                   "Consulte o histórico completo de doações recebidas."
                 ]}
@@ -465,9 +450,9 @@ const Index = () => {
               </div>
 
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Como funciona o Dashboard para a instituição religiosa</h3>
+                <h3 className="text-xl font-bold mb-2">Como funciona os Graficos para a instituição religiosa</h3>
                 <p className="text-gray-600">
-                  O Dashboard oferece uma análise completa das doações, incluindo dados por dia, semana e mês,
+                  Os graficos oferece uma análise completa das doações, incluindo dados por dia, semana e mês,
                   valor total recebido, quantidade de doações e um gráfico com a evolução dos resultados.
                 </p>
               </div>
