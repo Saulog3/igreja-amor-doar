@@ -403,9 +403,8 @@ const Index = () => {
                 features={[
                   "Faça doações diretamente para instituições de religiosas.",
                   "Explore e apoie arrecadações em andamento.",
-                  "Navegue pelas páginas de diferentes religiões e causas.",
-                  "Acompanhe suas contribuições em um histórico detalhado.",
-                  "Consulte valores doados, datas e benefícios de cada transação.",
+                  "Navegue pelas páginas de diferentes religiões.",
+                  
                 ]}
                 buttonText="Criar conta doadora"
                 linkTo="/auth?tab=register"
@@ -418,7 +417,7 @@ const Index = () => {
                   "Controle suas doações com um painel de análise financeira.",
                   "Crie e receba doações diretamente pela plataforma Solidário+.",
                   "Acompanhe em tempo real os valores arrecadados.",
-                  "Tenha acesso a um painel de análise financeira (dashboard) exclusivo.",
+                  "Tenha acesso a um painel de análise financeira (graficos) exclusivo.",
                   "Visualize métricas detalhadas sobre transações, valores e datas.",
                   "Consulte o histórico completo de doações recebidas."
                 ]}
@@ -451,9 +450,9 @@ const Index = () => {
               </div>
 
               <div className="border-b border-gray-200 pb-6">
-                <h3 className="text-xl font-bold mb-2">Como funciona o Dashboard para a instituição religiosa</h3>
+                <h3 className="text-xl font-bold mb-2">Como funciona os Graficos para a instituição religiosa</h3>
                 <p className="text-gray-600">
-                  O Dashboard oferece uma análise completa das doações, incluindo dados por dia, semana e mês,
+                  Os graficos oferece uma análise completa das doações, incluindo dados por dia, semana e mês,
                   valor total recebido, quantidade de doações e um gráfico com a evolução dos resultados.
                 </p>
               </div>
