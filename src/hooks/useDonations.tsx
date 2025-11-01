@@ -4,14 +4,15 @@ import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { Donation, DashboardMetrics } from "@/types/database";
 
-export const useDonations = (institutionId?: string) => {
+export const useDonations = (institutionId?: string, page = 1, limit = 10) => {
   const [donations, setDonations] = useState<Donation[]>([]);
   const [metrics, setMetrics] = useState<DashboardMetrics>({
     totalAmount: 0,
     totalDonations: 0,
     uniqueDonors: 0,
-    pendingAmount: 0
+    pendingAmount: 0,
   });
+  const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
   const { toast } = useToast();
 
@@ -19,40 +20,55 @@ export const useDonations = (institutionId?: string) => {
     try {
       setLoading(true);
 
-      let query = supabase
+      if (!institutionId) {
+        setDonations([]);
+        setMetrics({
+          totalAmount: 0,
+          totalDonations: 0,
+          uniqueDonors: 0,
+          pendingAmount: 0,
+        });
+        setLoading(false);
+        return;
+      }
+
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
+
+      // ✅ Consulta paginada — apenas para a tabela
+      const { data: pageData, error: pageError, count } = await supabase
         .from("donations")
-        .select("*")
-        .order("created_at", { ascending: false });
+        .select("*", { count: "exact" })
+        .eq("institution_id", institutionId)
+        .order("created_at", { ascending: false })
+        .range(from, to);
 
-      // Se institutionId for fornecido, filtrar por instituição
-      if (institutionId) {
-        query = query.eq("institution_id", institutionId);
-      }
+      if (pageError) throw pageError;
 
-      const { data, error } = await query;
+      setDonations(pageData || []);
+      setTotalCount(count || 0);
 
-      if (error) {
-        throw error;
-      }
+      // ✅ Consulta completa — para calcular métricas fixas
+      const { data: allDonations, error: allError } = await supabase
+        .from("donations")
+        .select("amount, payment_status, donor_email")
+        .eq("institution_id", institutionId);
 
-      const donationsData = data || [];
-      setDonations(donationsData);
+      if (allError) throw allError;
 
-      // Calcular métricas
-      const approvedDonations = donationsData.filter(d => d.payment_status === 'approved');
-      const pendingDonations = donationsData.filter(d => d.payment_status === 'pending');
-      
-      const totalAmount = approvedDonations.reduce((sum, donation) => sum + Number(donation.amount), 0);
-      const pendingAmount = pendingDonations.reduce((sum, donation) => sum + Number(donation.amount), 0);
-      const uniqueDonors = new Set(donationsData.map(d => d.donor_email).filter(Boolean)).size;
+      const approvedDonations = allDonations.filter((d) => d.payment_status === "approved");
+      const pendingDonations = allDonations.filter((d) => d.payment_status === "pending");
+
+      const totalAmount = approvedDonations.reduce((sum, d) => sum + Number(d.amount), 0);
+      const pendingAmount = pendingDonations.reduce((sum, d) => sum + Number(d.amount), 0);
+      const uniqueDonors = new Set(allDonations.map((d) => d.donor_email).filter(Boolean)).size;
 
       setMetrics({
         totalAmount,
         totalDonations: approvedDonations.length,
         uniqueDonors,
-        pendingAmount
+        pendingAmount,
       });
-
     } catch (error: any) {
       toast({
         title: "Erro ao carregar doações",
@@ -67,7 +83,7 @@ export const useDonations = (institutionId?: string) => {
   useEffect(() => {
     fetchDonations();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [institutionId]);
+  }, [institutionId, page]);
 
-  return { donations, metrics, loading, refetch: fetchDonations };
+  return { donations, metrics, loading, totalCount, refetch: fetchDonations };
 };

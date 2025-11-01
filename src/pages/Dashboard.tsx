@@ -222,6 +222,7 @@ const Dashboard = () => {
                   <TabsContent value="donations" className="space-y-6">
                     {/* Tabela de doações detalhada */}
                     <DetailedDonationsTable donations={filteredDonations} />
+                    
                   </TabsContent>
                   
                   <TabsContent value="analytics" className="space-y-6">

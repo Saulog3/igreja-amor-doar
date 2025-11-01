@@ -39,11 +39,17 @@ const MyAccount = () => {
     maxAmount: undefined,
   });
 
-  // Buscar dados de doações apenas se for uma instituição
-  const { donations, metrics, loading: donationsLoading } = useDonations(
-    profile?.is_institution ? institutionId : undefined
-  );
+  const [page, setPage] = useState(1);
+  const limit = 10; // registros por pági
   
+
+  // Buscar dados de doações apenas se for uma instituição
+  const { donations, metrics, loading: donationsLoading, totalCount } = useDonations(
+    profile?.is_institution ? institutionId : undefined,
+    page,
+    limit
+  );
+    
   // Filtrar doações com base nos filtros aplicados
   const filteredDonations = donations.filter(donation => {
     // Filtro por status
@@ -77,6 +83,8 @@ const MyAccount = () => {
     
     return true;
   });
+
+  const totalPages = Math.ceil(totalCount / limit);
 
   useEffect(() => {
     if (!loading && !user) {
@@ -244,7 +252,30 @@ const MyAccount = () => {
 
                           {/* Tabela de doações detalhada */}
                           <DetailedDonationsTable donations={filteredDonations} />
+                        {/* Paginação */}
+                        {totalPages > 1 && (
+                          <div className="flex justify-between mt-4">
+                            <button
+                              onClick={() => setPage(prev => Math.max(prev - 1, 1))}
+                              disabled={page === 1}
+                              className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+                            >
+                              Anterior
+                            </button>
+
+                            <span>Página {page} de {totalPages}</span>
+
+                            <button
+                              onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
+                              disabled={page === totalPages}
+                              className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
+                            >
+                              Próxima
+                            </button>
+                          </div>
+                        )}
                         </>
+                        
                       )}
                     </div>
                   </TabsContent>
@@ -331,6 +362,7 @@ const MyAccount = () => {
                           <DetailedDonationsTable donations={donations} />
                         )
                       ) : (
+                        
                         <div className="text-center py-12">
                           <p className="text-gray-500">Você ainda não fez nenhuma doação.</p>
                           <Button
