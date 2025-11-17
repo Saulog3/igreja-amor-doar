@@ -58,15 +58,6 @@ const DashboardFilters = ({ onFilterChange }: DashboardFiltersProps) => {
     <div className="mb-6">
       <div className="flex justify-between items-center">
         <h2 className="text-xl font-bold">Dashboard</h2>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2"
-        >
-          <Filter className="h-4 w-4" />
-          Filtros
-        </Button>
       </div>
 
       {isOpen && (

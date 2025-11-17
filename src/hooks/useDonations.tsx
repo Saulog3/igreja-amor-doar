@@ -41,7 +41,7 @@ export const useDonations = (institutionId?: string, page = 1, limit = 10) => {
         .select("*", { count: "exact" })
         .eq("institution_id", institutionId)
         .order("created_at", { ascending: false })
-        .range(from, to);
+        // .range(from, to);
 
       if (pageError) throw pageError;
 

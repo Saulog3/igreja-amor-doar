@@ -271,28 +271,7 @@ const MyAccount = () => {
 
                           {/* Tabela de doações detalhada */}
                           <DetailedDonationsTable donations={filteredDonations} />
-                        {/* Paginação */}
-                        {totalPages > 1 && (
-                          <div className="flex justify-between mt-4">
-                            <button
-                              onClick={() => setPage(prev => Math.max(prev - 1, 1))}
-                              disabled={page === 1}
-                              className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
-                            >
-                              Anterior
-                            </button>
 
-                            <span>Página {page} de {totalPages}</span>
-
-                            <button
-                              onClick={() => setPage(prev => Math.min(prev + 1, totalPages))}
-                              disabled={page === totalPages}
-                              className="px-3 py-1 bg-gray-200 rounded disabled:opacity-50"
-                            >
-                              Próxima
-                            </button>
-                          </div>
-                        )}
                         </>
                         
                       )}

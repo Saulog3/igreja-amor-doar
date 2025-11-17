@@ -46,6 +46,10 @@ const DonationsPieChart = ({ donations }: DonationsPieChartProps) => {
     count: data.count,
   }));
 
+  const formatTooltipValue = (value: number) => {
+    return `R$ ${value.toFixed(2)}`;
+  };
+
   // Cores para cada status
   const COLORS = {
     approved: "#10b981", // verde
@@ -59,10 +63,6 @@ const DonationsPieChart = ({ donations }: DonationsPieChartProps) => {
     return COLORS[status as keyof typeof COLORS] || "#6b7280";
   };
 
-  // Formatar valor para o tooltip
-  const formatTooltipValue = (value: number) => {
-    return `R$ ${value.toFixed(2)}`;
-  };
 
   return (
     <Card>
@@ -80,12 +80,10 @@ const DonationsPieChart = ({ donations }: DonationsPieChartProps) => {
                 data={pieData}
                 cx="50%"
                 cy="50%"
-                labelLine={false}
                 outerRadius={80}
                 fill="#8884d8"
                 dataKey="value"
                 nameKey="name"
-                label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
               >
                 {pieData.map((entry, index) => {
                   const status = Object.keys(statusCounts)[index];

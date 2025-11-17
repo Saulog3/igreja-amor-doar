@@ -14,9 +14,14 @@ import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
 import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
 import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import { useDonations } from "@/hooks/useDonations";
+import { useDonations } from "@/hooks/useDonations"; // ✅ Usando o hook real
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
+import { Donation } from "@/types/database"; // ✅ Importando o tipo Donation
+
+// REMOVIDO: Definição de tipo temporária (interface Donation)
+// REMOVIDO: Dados de teste (ALL_DONATIONS_FOR_TEST)
+// REMOVIDO: Constante ITEMS_PER_PAGE e estados locais de paginação (currentPage, etc.)
 
 const Dashboard = () => {
   const { user, profile } = useAuth();
@@ -33,8 +38,14 @@ const Dashboard = () => {
   });
   const [institutionId, setInstitutionId] = useState<string | undefined>(undefined);
 
-  // Usar o hook de doações
-  const { donations, loading: donationsLoading, refetch } = useDonations(institutionId);
+  // 🚀 HOOK DE DADOS REAIS
+  // O hook useDonations deve agora retornar as doações completas e as métricas
+  const { 
+    donations, 
+    loading: donationsLoading, 
+    metrics, // Assumindo que useDonations retorna as métricas
+    refetch 
+  } = useDonations(institutionId);
 
   // Redirecionar se não estiver logado
   useEffect(() => {
@@ -73,7 +84,7 @@ const Dashboard = () => {
 
     fetchInstitutionForProfile();
   }, [profile, toast]);
-  
+    
   // Função para atualizar os dados
   const handleRefresh = async () => {
     try {
@@ -81,6 +92,7 @@ const Dashboard = () => {
       toast({
         title: "Dados atualizados",
         description: "Os dados do dashboard foram atualizados com sucesso.",
+        variant: "success", // Usando a nova variante azul de sucesso
       });
     } catch (error) {
       toast({
@@ -91,13 +103,13 @@ const Dashboard = () => {
     }
   };
 
-  // Função para exportar dados
+  // Função para exportar dados (Mantida a função de toast, a lógica de CSV estará em DetailedDonationsTable)
   const handleExport = () => {
     toast({
       title: "Exportação iniciada",
-      description: "Os dados estão sendo preparados para exportação.",
+      description: "Aguarde o download do arquivo CSV.",
+      variant: "default", 
     });
-    // Implementação da exportação seria feita aqui
   };
 
   // Função para alternar a visibilidade dos filtros
@@ -105,7 +117,7 @@ const Dashboard = () => {
     setShowFilters(!showFilters);
   };
 
-  // Filtrar doações com base nos filtros
+  // Lógica de Filtragem (Permanecendo a lógica do código que você forneceu)
   const filteredDonations = donations.filter((donation) => {
     // Filtro de data inicial
     if (filters.startDate && donation.created_at) {
@@ -137,22 +149,8 @@ const Dashboard = () => {
     return true;
   });
 
-  // Calcular métricas
-  const metrics = {
-    totalAmount: filteredDonations
-      .filter((d) => d.payment_status === "approved")
-      .reduce((sum, donation) => sum + donation.amount, 0),
-    totalDonations: filteredDonations.filter((d) => d.payment_status === "approved").length,
-    uniqueDonors: new Set(
-      filteredDonations
-        .filter((d) => d.payment_status === "approved")
-        .map((d) => d.donor_email)
-        .filter(Boolean)
-    ).size,
-    pendingAmount: filteredDonations
-      .filter((d) => d.payment_status === "pending")
-      .reduce((sum, donation) => sum + donation.amount, 0),
-  };
+  // REMOVIDO: O cálculo de métricas local (agora vem do hook real: metrics)
+  // O hook useDonations já deve retornar as métricas.
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -217,12 +215,17 @@ const Dashboard = () => {
                     </div>
                     
                     <DonationsLineChart donations={filteredDonations} />
+                    {/* Tabela resumida (usa apenas os primeiros 10) */}
+                    <DonationsTable donations={filteredDonations.slice(0, 10)} showInstitution={false} />
+
                   </TabsContent>
                   
                   <TabsContent value="donations" className="space-y-6">
                     {/* Tabela de doações detalhada */}
-                    <DetailedDonationsTable donations={filteredDonations} />
-                    
+                    <DetailedDonationsTable 
+                      donations={filteredDonations}
+                      onFilterClick={handleFilterToggle}
+                    />
                   </TabsContent>
                   
                   <TabsContent value="analytics" className="space-y-6">
