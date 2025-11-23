@@ -23,18 +23,26 @@ const Auth = () => {
     setStatus("sending");
 
     const form = e.currentTarget;
-    const formData = new FormData(form);
 
     try {
-      const response = await fetch("https://formsubmit.co/solidariomais@gmail.com", {
+      const response = await fetch("https://9hj7xyzwo2.execute-api.sa-east-1.amazonaws.com/register", {
         method: "POST",
-        body: formData,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: institutionName,
+          cnpj: institutionCnpj,
+          description: institutionDescription,
+          address: institutionAddress,
+          phone: institutionPhone,
+          email
+        }),
       });
 
       if (response.ok) {
         setStatus("success");
         form.reset();
       } else {
+        console.error("Erro na resposta do servidor:", await response.json());
         throw new Error("Erro ao enviar o formulário");
       }
     } catch (error) {
