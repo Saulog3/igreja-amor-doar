@@ -28,7 +28,7 @@ function useScrollToAnchorOnHome() {
 
 const Navbar = () => {
   useScrollToAnchorOnHome();
-  const { user, profile, signOut, isAdmin } = useAuth();
+  const {user, profile, avatarUrl, signOut, isAdmin } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
@@ -102,7 +102,7 @@ const Navbar = () => {
             <div className="flex items-center gap-4">
               <Link to="/minha-conta" className="flex items-center gap-2 text-gray-700 hover:text-solidario-blue">
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || ""} />
+                  <AvatarImage src={avatarUrl || ""} alt={profile?.username || ""} />
                   <AvatarFallback>
                     {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || user.email?.charAt(0) || "U"}
                   </AvatarFallback>

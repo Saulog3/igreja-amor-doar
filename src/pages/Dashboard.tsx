@@ -14,14 +14,10 @@ import DonationsLineChart from "@/components/dashboard/DonationsLineChart";
 import DetailedDonationsTable from "@/components/dashboard/DetailedDonationsTable";
 import DashboardFilters, { FilterValues } from "@/components/dashboard/DashboardFilters";
 import DashboardHeader from "@/components/dashboard/DashboardHeader";
-import { useDonations } from "@/hooks/useDonations"; // ✅ Usando o hook real
+import { useDonations } from "@/hooks/useDonations"; 
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
-import { Donation } from "@/types/database"; // ✅ Importando o tipo Donation
-
-// REMOVIDO: Definição de tipo temporária (interface Donation)
-// REMOVIDO: Dados de teste (ALL_DONATIONS_FOR_TEST)
-// REMOVIDO: Constante ITEMS_PER_PAGE e estados locais de paginação (currentPage, etc.)
+import { Donation } from "@/types/database"; 
 
 const Dashboard = () => {
   const { user, profile } = useAuth();

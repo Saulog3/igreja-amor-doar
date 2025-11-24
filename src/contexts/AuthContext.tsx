@@ -28,6 +28,9 @@ type AuthContextType = {
   updatePassword: (password: string) => Promise<void>;
   updateProfile: (data: Partial<ProfileType>) => Promise<void>;
   isAdmin: () => boolean;
+
+  avatarUrl: string | null;
+  setAvatarUrl: (url: string | null) => void;
 };
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -37,6 +40,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<ProfileType | null>(null);
   const [loading, setLoading] = useState(true);
+  const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -263,6 +267,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     updatePassword,
     updateProfile,
     isAdmin,
+    avatarUrl,
+    setAvatarUrl
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

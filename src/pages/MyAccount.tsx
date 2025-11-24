@@ -32,7 +32,8 @@ const MyAccount = () => {
     newPassword: "",
   });
   
-  const [avatarUrl, setAvatarUrl] = useState<string>("");
+  // const [avatarUrl, setAvatarUrl] = useState<string>("");
+  const { avatarUrl, setAvatarUrl } = useAuth();
   const [institutionId, setInstitutionId] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterValues>({
     startDate: undefined,
