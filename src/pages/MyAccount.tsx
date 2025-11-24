@@ -31,6 +31,8 @@ const MyAccount = () => {
     newEmail: "",
     newPassword: "",
   });
+  
+  const [avatarUrl, setAvatarUrl] = useState<string>("");
   const [institutionId, setInstitutionId] = useState<string | null>(null);
   const [filters, setFilters] = useState<FilterValues>({
     startDate: undefined,
@@ -101,6 +103,17 @@ const MyAccount = () => {
         newPassword: "",
       });
 
+      const fetchAvatarUrl = async () => {
+          const { data } = await supabase
+            .from("institutions")
+            .select("logo_url")
+            .eq("profile_id", user?.id)
+            .single();
+          if (data) {
+            setAvatarUrl(data.logo_url)
+          };
+        }
+      
       // Se for uma instituição, buscar o ID da instituição
       if (profile.is_institution) {
         const fetchInstitutionId = async () => {
@@ -115,8 +128,10 @@ const MyAccount = () => {
           }
         };
         fetchInstitutionId();
+        fetchAvatarUrl();
       }
     }
+    
   }, [user, profile, loading, navigate]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -171,7 +186,7 @@ const MyAccount = () => {
                 <CardHeader>
                   <div className="flex flex-col items-center">
                     <Avatar className="h-24 w-24 mb-4">
-                      <AvatarImage src={profile?.avatar_url || ""} alt={profile?.username || "Usuário"} />
+                      <AvatarImage src={avatarUrl|| ""} alt={profile?.username || "Usuário"} />
                       <AvatarFallback className="text-2xl">
                         {profile?.full_name?.charAt(0) || profile?.username?.charAt(0) || "U"}
                       </AvatarFallback>
